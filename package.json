@@ -1,5 +1,4 @@
 {
-  "private": true,
   "name": "pes6-server-manager",
   "type": "module",
   "version": "0.0.1",
@@ -7,18 +6,24 @@
   "bin": "./src/cli.js",
   "main": "index.js",
   "scripts": {
+    "build": "esbuild ./src/cli.js --bundle=true --outfile=./dist/cli.js --target=node18 --platform=node",
     "dev": "nodemon ./src/cli.js",
-    "start": "node ./src/cli.js"
+    "start": "node ./src/cli.js",
+    "build:pkg": "pkg ./dist/cli.js --out-path dist/bin"
   },
   "keywords": [],
   "author": "Alejo Oroncoy <adoa2705@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^5.1.2",
+    "chalk-template": "^0.4.0",
     "commander": "^9.4.1",
     "is-wsl": "^2.2.0",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@chialab/esbuild-plugin-meta-url": "^0.17.2",
+    "esbuild": "^0.15.13",
     "nodemon": "^2.0.20"
   }
 }

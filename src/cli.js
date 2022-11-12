@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+import prompts from "prompts";
 import { program } from "commander";
+import config from "./config/index.js";
+import loadHost from "./utils/loadHost.js";
 
 program
   .name("psm")
@@ -12,7 +15,30 @@ program
     "Output the Pes6 server manager's current version ⚽💻"
   );
 
-const cli = async ({ open }) => {};
+const cli = async ({ open }) => {
+  config.cli = true;
+  const choices = config.hosts
+    .map((host) => host.at(0).toUpperCase().concat(host.slice(1, host.length)))
+    .map((host) => ({
+      title: host,
+      description: `Server ${host} ✨`,
+      value: host,
+    }));
+
+  const { host } = await prompts({
+    type: "select",
+    name: "host",
+    message: config.message,
+    choices,
+    initial: config.hosts.findIndex((host) => host === config.hostDefault),
+  });
+  if (host) {
+    loadHost(host);
+    console.log(chalkTemplate`Server changed to ${host}! ✨`);
+    return process.exit(0);
+  }
+  console.log("No host chosen for pes 6 😪");
+};
 
 program
   .option("-o, --open")

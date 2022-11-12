@@ -1,0 +1,39 @@
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+# 
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+    127.0.0.1       localhost
+    ::1             localhost
+217.10.68.152 we9stun.winning-eleven.net       #Stunserver	(Recommended for Europe)
+77.75.123.242 pes6gate-ec.winning-eleven.net   #Pes6Stars Server (pes6stars.us.to)
+#210.148.52.96 we9stun.winning-eleven.net	   #Stunserver (Alternative 1 japan
+#212.227.67.34 we9stun.winning-eleven.net    #Stunserver [Best Ping Iran] (Alternative 2) 
+#107.23.150.92 we9stun.winning-eleven.net    #Alternative Stunserver [NOT Recommended] from America]  
+#77.72.169.211 we9stun.winning-eleven.net	#Alternative Stunserver [NOT Recommended]
+#You can check all the stun servers to see which is better for you.
+#If you have lag at second half only when you blue. This is about you and your opponent ping.
+#Don't use wifi, if you don't want see the lag. >>>>>>>>And report cheaters!<<<<<<<<
+#######Alternative Servers########
+#51.178.18.75 pes5gate-ec.winning-eleven.net # Pes5 OWH WAP Server (we9le.wap.ovh)
+#45.90.223.44 pes5gate-ec.winning-eleven.net # Pes5 Indie Server (pes5indie.com)
+
+#OnLy_Official-Link!!
+#www.Pes6Stars.us.to (since 2015 by Bob and Ahg37)
+#Pes6Stars.us.to/games.php
+#Pes6Stars.us.to/discord
+#Pes6Stars.us.to/facebook
