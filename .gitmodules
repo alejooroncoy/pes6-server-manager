@@ -1,0 +1,3 @@
+[submodule "src/server"]
+	path = src/server
+	url = https://github.com/alejooroncoy/pes6-server-manager-server.git
