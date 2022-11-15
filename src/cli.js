@@ -2,7 +2,9 @@
 import prompts from "prompts";
 import { program } from "commander";
 import config from "./config/index.js";
+import openPes6 from "./utils/openPes6.js";
 import loadHost from "./utils/loadHost.js";
+import Spinner from "./utils/Spinner.js";
 
 program
   .name("psm")
@@ -34,7 +36,17 @@ const cli = async ({ open }) => {
   });
   if (host) {
     loadHost(host);
-    console.log(chalkTemplate`Server changed to ${host}! ✨`);
+    console.log(`Server changed to ${host}! ✨`);
+    if (open) {
+      const spinner = new Spinner({
+        text: "Opening Pes 6...",
+      });
+      spinner.start("Opening Pes 6...");
+      return openPes6(spinner, () => {
+        spinner.stop(`Opened pes 6! ⚽😉`);
+        process.exit(0);
+      });
+    }
     return process.exit(0);
   }
   console.log("No host chosen for pes 6 😪");
