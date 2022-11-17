@@ -19,25 +19,42 @@ program
 
 const cli = async ({ open }) => {
   config.cli = true;
-  const choices = config.hosts
-    .map((host) => host.at(0).toUpperCase().concat(host.slice(1, host.length)))
+  const hosts = await config.getHosts();
+  const choices = hosts
     .map((host) => ({
-      title: host,
-      description: `Server ${host} ✨`,
-      value: host,
+      ...host,
+      name: host.name
+        .at(0)
+        .toUpperCase()
+        .concat(host.name.slice(1, host.name.length)),
+    }))
+    .map((host) => ({
+      title: host.name,
+      description: `Server ${host.name} ✨`,
+      value: host.name,
+      disabled: host.status === "development",
     }));
-
   const { host } = await prompts({
     type: "select",
     name: "host",
     message: config.message,
     choices,
-    initial: config.hosts.findIndex((host) => host === config.hostDefault),
+    initial: hosts.findIndex((host) => host.name === config.hostDefault),
+    warn: `This server is still under development to be able to change its host, coming soon available ✨🛠`,
   });
   if (host) {
-    loadHost(host);
-    console.log(`Server changed to ${host}! ✨`);
-    if (open) {
+    await loadHost(host);
+    let isOpen = open;
+    if (open === undefined) {
+      const { isOpen: canOpen } = await prompts({
+        type: "confirm",
+        name: "isOpen",
+        message: "Do you want PES 6 to open?",
+        initial: false,
+      });
+      isOpen = canOpen;
+    }
+    if (isOpen) {
       const spinner = new Spinner({
         text: "Opening Pes 6...",
       });
@@ -47,13 +64,13 @@ const cli = async ({ open }) => {
         process.exit(0);
       });
     }
-    return process.exit(0);
+    return;
   }
   console.log("No host chosen for pes 6 😪");
 };
 
 program
-  .option("-o, --open")
+  .option("-o, --open", "Open Pes 6 after change host ✨⚽")
   .description("After changed host, open Pes 6 ✨⚽")
   .action(cli);
 

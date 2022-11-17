@@ -1,9 +1,17 @@
-import { readdirSync } from "node:fs";
-import path from "node:path";
+import fetch from "node-fetch";
 import pathWindows from "node:path/win32";
 import isWsl from "is-wsl";
-import { isWindows } from "../utils/findOs.js";
+import internetAvailable from "internet-available";
 import { exec, execFileSync } from "node:child_process";
+
+import { isWindows } from "../utils/findOs.js";
+import {
+  existsCache,
+  getCacheList,
+  getPathCache,
+  initialCache,
+  setCache,
+} from "./cache.js";
 
 const config = {
   windDir: "",
@@ -25,21 +33,35 @@ const config = {
       return winDirParsed.root.replaceAll(pathWindows.sep, "/");
     }
   },
-  get pathHosts() {
-    const prefix = `file:${"/".repeat(isWsl ? 2 : 3)}`;
-    const url = import.meta.url || process.execPath;
-    const pathNameWithoutPrefix = decodeURIComponent(url.replace(prefix, ""));
-    return path.resolve(
-      path.dirname(pathNameWithoutPrefix),
-      `../../bd-hosts-server-pes6`
-    );
+  get urlHosts() {
+    return new URL("https://psm-server.onrender.com/hosts/static");
   },
   /**
    * @type {string[]}
    */
-  get hosts() {
-    const hosts = readdirSync(this.pathHosts, "utf-8");
-    return hosts;
+  async getHosts() {
+    try {
+      await internetAvailable();
+      const urlListHosts = new URL(
+        "https://psm-server.onrender.com/hosts/list"
+      );
+      console.log(`Loading servers from ${urlListHosts} ⌛✨`);
+      const response = await fetch(urlListHosts, {
+        method: "GET",
+      });
+      const list = await response.json();
+      if (!existsCache()) initialCache();
+      setCache(list, "hosts");
+      console.log(`Loaded servers ⚽✨`);
+      return list;
+    } catch (err) {
+      if (existsCache()) {
+        console.log(`Loading servers from ${getPathCache()} ⌛✨`);
+        const list = getCacheList();
+        console.log(`Loaded servers ⚽✨`);
+        return list;
+      }
+    }
   },
   get pathDestHosts() {
     if (isWsl || isWindows()) return "Windows/System32/drivers/etc/hosts";
@@ -91,10 +113,13 @@ const config = {
     }
   },
   get commandStartPes6() {
-    return isWsl ? "cmd.exe /c start pes6.exe" : "pes6.exe";
+    return isWsl ? "cmd.exe /c start pes6.exe" : 'cmd.exe /c "start pes6.exe"';
   },
   message: "Choose one server:",
-  hostDefault: "pes6.es",
+  get hostDefault() {
+    const hostsList = getCacheList();
+    return hostsList.find((host) => host.activate)?.name || "pes6.es";
+  },
 };
 
 export default config;

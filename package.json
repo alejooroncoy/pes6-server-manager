@@ -6,10 +6,10 @@
   "bin": "./src/cli.js",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild ./src/cli.js --bundle=true --outfile=./dist/cli.js --target=node18 --platform=node",
+    "build": "esbuild ./src/cli.js --bundle=true --outfile=./dist/psm.js --target=node18 --platform=node",
     "dev": "nodemon ./src/cli.js",
     "start": "node ./src/cli.js",
-    "build:pkg": "pkg ./dist/cli.js --out-path dist/bin"
+    "build:pkg": "pkg ./dist/psm.js --out-path dist/bin --compress GZip"
   },
   "keywords": [],
   "author": "Alejo Oroncoy <adoa2705@gmail.com>",
@@ -18,7 +18,9 @@
     "chalk": "^5.1.2",
     "chalk-template": "^0.4.0",
     "commander": "^9.4.1",
+    "internet-available": "^1.0.0",
     "is-wsl": "^2.2.0",
+    "node-fetch": "^3.3.0",
     "prompts": "^2.4.2"
   },
   "devDependencies": {

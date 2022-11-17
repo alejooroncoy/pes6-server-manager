@@ -1,15 +1,18 @@
-import { createReadStream, createWriteStream } from "node:fs";
-import path from "node:path";
-import config from "../config/index.js";
+import internetAvailable from "internet-available";
+import { getPathCacheHost } from "../config/cache.js";
+import { getHostFromCache, getHostFromUrl } from "./getHost.js";
 
-export default function loadHost(host) {
-  const pathFileNameHosts = path.resolve(
-    config.pathHosts,
-    host.toLowerCase(),
-    "./hosts"
-  );
-  const contentFileName = createReadStream(pathFileNameHosts, "utf-8");
-  const destFileName = path.resolve(config.root, config.pathDestHosts);
-  const writeOutput = createWriteStream(destFileName, "utf-8");
-  contentFileName.pipe(writeOutput);
+export default async function loadHost(host) {
+  const pathCacheHost = getPathCacheHost(host.toLowerCase());
+  if (pathCacheHost) {
+    await getHostFromCache(pathCacheHost, host.toLowerCase());
+  } else {
+    try {
+      await internetAvailable();
+      await getHostFromUrl(host);
+    } catch (err) {
+      await getHostFromCache(pathCacheHost, host.toLowerCase());
+    }
+  }
+  console.log(`Server changed to ${host}! ✨`);
 }
