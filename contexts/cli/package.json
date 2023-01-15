@@ -1,0 +1,33 @@
+{
+  "name": "pes6-server-manager",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Pes6 server manager helps its users to be able to have control of the servers where they play. In this way, with a few simple clicks, play PES 6 on the server of your choice. 💻⚽",
+  "bin": "./src/cli.js",
+  "main": "index.js",
+  "scripts": {
+    "build": "node ./src/esbuild.build.js",
+    "dev": "nodemon ./src/cli.js",
+    "start": "node ./src/cli.js",
+    "publish:app": "node ./src/publish.js",
+    "build:pkg": "pkg ./dist/psm.js --out-path dist/bin --compress GZip"
+  },
+  "keywords": [],
+  "author": "Alejo Oroncoy <adoa2705@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.1.2",
+    "chalk-template": "^0.4.0",
+    "commander": "^9.4.1",
+    "internet-available": "^1.0.0",
+    "is-wsl": "^2.2.0",
+    "node-fetch": "^3.3.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "esbuild": "^0.15.13",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.8.1"
+  }
+}
