@@ -6,11 +6,9 @@
   "bin": "./src/cli.js",
   "main": "index.js",
   "scripts": {
-    "build": "node ./src/esbuild.build.js",
     "dev": "nodemon ./src/cli.js",
     "start": "node ./src/cli.js",
-    "publish:app": "node ./src/publish.js",
-    "build:pkg": "pkg ./dist/psm.js --out-path dist/bin --compress GZip"
+    "publish:app": "node ./src/publish.js"
   },
   "keywords": [],
   "author": "Alejo Oroncoy <adoa2705@gmail.com>",
