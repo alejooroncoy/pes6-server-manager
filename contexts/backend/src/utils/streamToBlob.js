@@ -1,3 +1,5 @@
+import { Blob } from "fetch-blob";
+
 /**
  *
  * @param {WritableStream} stream
