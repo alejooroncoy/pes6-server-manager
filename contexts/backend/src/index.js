@@ -6,6 +6,7 @@ import noFoundHandler from "./middlewares/notFound.handler.js";
 
 const app = express();
 
+app.use(express.json());
 app.use("/server", server);
 app.use("/psm", psm);
 
