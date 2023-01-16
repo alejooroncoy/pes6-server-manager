@@ -7,8 +7,8 @@ import psmServices from "./services.js";
  */
 export const getPsmBin = async (req, res) => {
   const { version } = req.query;
-  const binPath = await psmServices.getPsmFileBin(version);
-  res.download(binPath);
+  const url = await psmServices.getPsmFileBin(version);
+  res.redirect(url);
 };
 
 /**
@@ -18,6 +18,6 @@ export const getPsmBin = async (req, res) => {
  */
 export const uploadPsmBin = async (req, res) => {
   const { version } = req.query;
-  const binUploaded = await psmServices.uploadPsmFileBin(req, version);
+  const binUploaded = await psmServices.uploadPsmFileBin(req.body, version);
   res.status(201).send(binUploaded);
 };
