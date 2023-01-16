@@ -23,6 +23,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@angablue/exe": "^1.2.0",
     "dotenv": "^16.0.3",
     "esbuild": "^0.15.13",
     "nodemon": "^2.0.20",
