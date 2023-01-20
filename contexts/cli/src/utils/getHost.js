@@ -1,4 +1,6 @@
 import { saveCacheHost, setConfigHost, TIME_EXPIRED } from "../config/cache.js";
+import http from "node:http";
+import https from "node:https";
 import { createReadStream, createWriteStream } from "node:fs";
 import path from "node:path";
 import config from "../config/index.js";
@@ -15,7 +17,7 @@ export const getHostFromUrl = (
     } else {
       console.log(`Loading hosts from ${urlHosts} ⌛📋`);
     }
-    const { get } = await import(`node:${urlHosts.protocol.replace(":", "")}`);
+    const { get } = urlHosts.protocol === "http:" ? http : https;
     get(urlHosts, (response) => {
       const destFileName = path.resolve(config.root, config.pathDestHosts);
       const writeOutput = createWriteStream(destFileName, "utf-8");
