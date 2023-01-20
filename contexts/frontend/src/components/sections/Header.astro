@@ -1,0 +1,33 @@
+---
+import ServerSvg from '../ServerSvg.astro';
+---
+<header class="fixed top-0 bg-secondary w-full left-0">
+  <nav class="py-4">
+    <div class="flex items-center justify-center md:justify-between max-w-screen-lg mx-auto md:px-8 lg:px-0">
+        <a href="/" class="flex gap-2 items-center justify-center">
+          <h1 class="flex font-extrabold text-2xl">PSM</h1>
+          <ServerSvg size={25} />
+        </a>
+        <ul class="menu">
+          <li class="menu__item">
+            <a class="menu__item__link" href="#">Downloads</a>
+          </li>
+          <li class="menu__item">
+            <a class="menu__item__link" href="#">About</a>
+          </li>
+        </ul>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .menu {
+    @apply fixed md:static top-14 left-0 w-full flex justify-center items-center gap-2 flex-row bg-primary text-thirdary md:text-black py-1 md:justify-end md:bg-transparent;
+  }
+  .menu__item {
+    @apply flex-auto flex md:flex-none;
+  }
+  .menu__item__link {
+    @apply font-bold mx-auto;
+  }
+</style>
