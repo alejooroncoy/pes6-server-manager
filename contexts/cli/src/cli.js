@@ -5,7 +5,7 @@ import config from "./config/index.js";
 import openPes6 from "./utils/openPes6.js";
 import loadHost from "./utils/loadHost.js";
 import Spinner from "./utils/Spinner.js";
-import errorHandler from "./handles/error.handler.js";
+import errorHandler from "./handlers/error.handler.js";
 
 program
   .name("psm")
