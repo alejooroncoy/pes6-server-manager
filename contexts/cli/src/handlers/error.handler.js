@@ -1,12 +1,11 @@
 import { createWriteStream } from "node:fs";
 import path from "node:path";
-import { getPathCache } from "../config/cache";
+import { getPathCache } from "../config/cache.js";
 
 export default function errorHandler() {
   const errorStream = createWriteStream(
     path.resolve(getPathCache(), "../error.txt")
   );
-  console.log(path.resolve(getPathCache() + "../error.txt"));
 
   const handleError = (error) => {
     errorStream.write(String(error));
