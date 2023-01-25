@@ -1,0 +1,95 @@
+---
+import { Icon } from "astro-icon";
+import config from "../../config";
+import FormSvg from "../componentsSvg/FormSvg.astro";
+
+const { baseUrlBackend } = config;
+---
+
+<section id="proposals" class="bg-slate-100 pt-16">
+  <div class="py-10">
+    <article class="flex flex-col gap-4 md:flex-row md:min-h-[30rem]">
+      <header
+        class="flex-1 flex flex-col items-center md:items-start gap-3 px-6 lg:px-20"
+      >
+        <h2
+          class="text-primary text-4xl font-extrabold text-center md:text-start md:text-7xl"
+        >
+          Proposals
+        </h2>
+        <p
+          class="text-center text-md px-2 md:text-start md:text-lg text-primary"
+        >
+          If you like PSM, you can let it know through your comments, where you
+          can give us your ideas for improvement.
+        </p>
+        <FormSvg className="hidden md:block w-1/2 self-center mt-4" />
+      </header>
+      <div class="flex-1 px-3">
+        <form
+          class="shadow-lg w-full min-[375px]:w-[90%] flex flex-col justify-center content-center flex-wrap min-h-full gap-4 py-5 bg-gradient-to-tl from-slate-600 to-slate-900 rounded md:w-full lg:w-2/3 mx-auto"
+          action="POST"
+          id="formProposal"
+        >
+          <label class="flex flex-col gap-1" for="name">
+            <span class="sr-only">Your name</span>
+            <h4 class="text-slate-200 lg:text-lg">Your name 🙍‍♂️</h4>
+            <div
+              class="flex gap-1 bg-slate-100 items-center justify-center pl-3 rounded-sm"
+            >
+              <Icon class="w-5 h-5" name="wpf:name" />
+              <input
+                class="w-full bg-transparent placeholder:italic pl-2 leading-8"
+                type="text"
+                id="name"
+                placeholder="Name"
+                name="name"
+                required
+              />
+            </div>
+          </label>
+          <label class="flex flex-col gap-1" for="opinion">
+            <span class="sr-only">Your opinion</span>
+            <h4 class="text-slate-200 lg:text-lg">
+              What did you think of PSM? 💭🤔
+            </h4>
+            <div
+              class="flex gap-1 bg-slate-100 items-center justify-center pl-3 rounded-sm"
+            >
+              <Icon class="w-5 h-5" name="mdi:think-outline" />
+              <input
+                class="w-full bg-transparent placeholder:italic pl-2 leading-8 rounded-md"
+                type="text"
+                id="opinion"
+                name="opinion"
+                placeholder="Your opinion about our service"
+                required
+              />
+            </div>
+          </label>
+          <label class="flex flex-col gap-1" for="proposal">
+            <span class="sr-only">Your proposals</span>
+            <h4 class="text-slate-200 lg:text-lg">
+              Your proposals for improvement 📃
+            </h4>
+            <div class="flex gap-1 bg-slate-100 items-center justify-center">
+              <textarea
+                class="w-full pl-2 pt-1 placeholder:italic h-24 bg-transparent rounded-sm"
+                id="proposal"
+                name="proposal"
+                required
+                placeholder="Your awesome propopsals"></textarea>
+            </div>
+          </label>
+          <button
+            class="leading-10 rounded font-semibold bg-secondary active:scale-95 transition-all duration-200 md:leading-10"
+            >`Send proposal <i class="not-italic">📤</i>`</button
+          >
+        </form>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script set:html={`const baseUrlBackend = "${baseUrlBackend}";`}></script>
+<script src="/src/scripts/homeContact.js"></script>

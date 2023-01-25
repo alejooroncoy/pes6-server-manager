@@ -1,34 +1,37 @@
 ---
 import { Icon } from "astro-icon";
-import SoccerGoal from "../SoccerGoal.astro";
+import config from "../../config";
+import SoccerGoal from "../componentsSvg/SoccerGoal.astro";
 import Link from "../Link.astro";
 ---
 
-<section class="hero">
-  <div class="hero-container">
+<section class="pt-20 bg-gradient-to-tl from-slate-600 to-slate-900">
+  <div
+    class="p-4 box-border flex items-center justify-center gap-1 flex-col md:flex-row"
+  >
     <article class="content">
-      <div class="content-container">
+      <div class="py-4 flex justify-center flex-col gap-3">
         <h2
-          class="content__title"
+          class="text-3xl sm:text-4xl m-0 lg:text-6xl h-auto pb-2 leading-none xl:text-7xl font-extrabold text-transparent bg-clip-text text-thirdary bg-gradient-to-br"
         >
           Pes 6 server manager
         </h2>
-        <p class="content__paragraph">
+        <p class="text-lg m-0 text-slate-100 max-w-xl">
           Pes6 server manager helps its users to be able to have control of the
           servers where they play. In this way, with a few simple clicks, play
           PES 6 on the server of your choice. 💻⚽
         </p>
-        <div class="content__buttons">
+        <div class="m-0 flex flex-col sm:flex-row gap-3">
           <Link
             modifier="dark"
-            href="https://psm.up.railway.app/psm/bin?version=0.0.1"
+            href={`${config.baseUrlBackend}/psm/bin?version=0.0.1`}
             target="_blank"
             className="flex gap-1 items-center justify-center bg-primary"
             rel="noopener noreferrer"
           >
             <Icon class="text-white w-5 h-5" name="bx:bxs-cloud-download" />
 
-            Download Version Bin
+            Download Version Bin Latest
           </Link>
           <Link
             rel="noopener noreferrer"
@@ -42,27 +45,6 @@ import Link from "../Link.astro";
         </div>
       </div>
     </article>
-    <SoccerGoal className="w-full h-fit md:w-auto" />
+    <SoccerGoal className="w-full h-fit md:w-1/2 lg:w-auto" />
   </div>
 </section>
-
-<style>
-  .hero {
-    @apply min-h-screen pt-20;
-  }
-  .hero-container {
-    @apply p-4 box-border flex items-center justify-center gap-1 flex-col md:flex-row;
-  }
-  .content-container {
-    @apply py-4 flex justify-center flex-col gap-2;
-  }
-  .content__title {
-    @apply text-3xl sm:text-4xl m-0 lg:text-6xl h-auto pb-2 leading-none xl:text-7xl font-extrabold text-transparent bg-clip-text from-primary to-thirdary bg-gradient-to-br;
-  }
-  .content__paragraph {
-    @apply text-lg m-0 text-slate-600 max-w-xl;
-  }
-  .content__buttons {
-    @apply m-0 flex flex-col sm:flex-row gap-3;
-  }
-</style>

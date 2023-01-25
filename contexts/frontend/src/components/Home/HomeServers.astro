@@ -1,57 +1,72 @@
 ---
-import { Image } from "@astrojs/image/components";
-import Pes6Es from "../../assets/img/pes6.es.png";
-import Pes6Stars from "../../assets/img/pes6.stars.png";
-import Pes6Indie from "../../assets/img/pes6.indie.png";
-import Pes6Ps2 from "../../assets/img/pes6.ps2.png";
+import config from "../../config";
+
+interface ResponseServers {
+  error?: any;
+  data: DataServer[];
+  count?: any;
+  status: number;
+  statusText: string;
+}
+
+type DataServer = {
+  name: string;
+  created_at: string;
+  status: string;
+  description: string;
+  id: number;
+  urlHost: string;
+  img: string;
+  urlHome: string;
+};
+
+const response = await fetch(`${config.baseUrlBackend}/server/list`);
+const { data: servers }: ResponseServers = await response.json();
 ---
 
-<section>
-  <div class="py-4 flex flex-col gap-8 items-center justify-center">
-    <h2 class="text-2xl md:text-4xl font-extrabold text-primary">
+<section id="servers" class="py-4 bg-gray-100 pt-20">
+  <div class="py-4 flex flex-col gap-12 items-center justify-center">
+    <h2 class="text-3xl md:text-5xl font-extrabold text-primary">
       Servers availables
     </h2>
-    <ul class="menu">
-      <li>
-        <a target="_blank" rel="noopener noreferrer" class="menu__link" href="https://www.pes6.es/"
-          ><Image class="menu__link__img" alt="Pes6.es logo" src={Pes6Es} /></a>
-      </li>
-      <li>
-        <a target="_blank" rel="noopener noreferrer" class="menu__link" href="https://pes6stars.us.to/"
-          ><Image
-            class="menu__link__img"
-            alt="Stars logo"
-            src={Pes6Stars}
-          /></a>
-      </li>
-      <li>
-        <a target="_blank" rel="noopener noreferrer" class="menu__link" href="https://www.pes6indie.com/"
-          ><Image
-            class="menu__link__img menu__link__img--ps2"
-            alt="Indie logo"
-            src={Pes6Indie}
-          /></a>
-      </li>
-      <li>
-        <a target="_blank" rel="noopener noreferrer" class="menu__link" href="http://ps2online.com/pes6/register/"
-          ><Image
-            class="menu__link__img menu__link__img--ps2"
-            alt="Ps2 logo"
-            src={Pes6Ps2}
-          /></a>
-      </li>
+    <ul
+      class="w-full p-0 m-0 flex gap-8 flex-col sm:flex-wrap sm:flex-row justify-center items-center"
+    >
+      {
+        servers
+          .filter(({ status }) => status === "working")
+          .map(({ img, urlHome, name }) => (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              class="menu__link"
+              href={urlHome}
+            >
+              <img
+                id={
+                  (name === "brasil_server" && "pes6BrasilServer") || undefined
+                }
+                class:list={[
+                  "menu__link__img",
+                  name === "brasil_server" ? "p-4 rounded" : "",
+                  name === "ps2" || name === "indie" ? "w-36 md:w-60" : "",
+                ]}
+                alt="Pes6.es logo"
+                src={img}
+                width="auto"
+                height="auto"
+              />
+            </a>
+          ))
+      }
     </ul>
   </div>
 </section>
 
 <style>
-  .menu {
-    @apply w-full p-0 m-0 flex gap-8 flex-col sm:flex-wrap sm:flex-row justify-center items-center;
-  }
   .menu__link__img {
-    @apply w-56 grayscale transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105;
-  }
-  .menu__link__img--ps2 {
-    @apply w-36;
+    @apply w-56 grayscale transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105 md:w-80;
   }
 </style>
+
+<script src="../../scripts/homeServers.js"></script>

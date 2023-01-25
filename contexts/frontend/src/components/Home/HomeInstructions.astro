@@ -1,0 +1,101 @@
+---
+import { Image } from "@astrojs/image/components";
+import Icon from "astro-icon";
+
+import Step1 from "../../assets/img/steps/step-1.gif";
+import Step2 from "../../assets/img/steps/step-2.jpg";
+import Step3 from "../../assets/img/steps/step-3.jpg";
+
+const steps = [
+  {
+    title: "Download and open the PSM.exe file as administrator.",
+    icon: "ic:baseline-cloud-download",
+    img: Step1,
+  },
+  {
+    title: "Choose the server where you want to play!",
+    icon: "uil:servers",
+    img: Step2,
+  },
+  {
+    title: "Decide whether to open Pes6, PSM does it for you.",
+    icon: "ic:baseline-file-open",
+    img: Step3,
+  },
+];
+---
+
+<section
+  id="steps"
+  class="flex justify-center items-center bg-gradient-to-b from-slate-900 to-slate-600 pt-20"
+>
+  <div
+    class="flex flex-col gap-8 py-8 justify-center items-center md:flex-row md:flex-wrap relative z-0"
+  >
+    <h2
+      class="text-secondary font-extrabold text-4xl md:text-7xl md:flex-full text-end md:px-20 self-end px-8"
+    >
+      Use steps
+    </h2>
+    <p
+      class="flex-full text-yellow-100 text-sm md:text-lg py-2 px-8 md:px-20 text-end"
+    >
+      In short steps you can switch to the server where you want to play, until
+      you open Pes6. ✨⚽
+    </p>
+    <div class="px-2 h-full w-full lg:flex-1">
+      <div
+        class="flex flex-col justify-center w-[90%] mx-auto sm:w-3/4 before:bg-secondary gap-8 before:left-[1.6rem] before:-z-10 before:top-3 before:bottom-2 before:w-1 relative before:absolute px-2 lg:before:left-[1.95rem] sm:before:top-2 sm:before:bottom-2"
+      >
+        {
+          steps.map((step, i) => (
+            <article class="flex gap-2 items-center justify-start">
+              <span
+                class:list={[
+                  "rounded-full shadow-xl w-10 h-10 flex items-center justify-center font-bold bg-white transition-colors ease-linear duration-200 cursor-pointer lg:w-12 lg:h-12 lg:text-lg",
+                  i === 0 ? "active-step" : "",
+                  "number-step",
+                ]}
+                data-order={i}
+              >
+                {i + 1}
+              </span>
+              <div class="flex items-center justify-start gap-2 w-3/4 md:gap-4 text-gray-200">
+                <Icon name={step.icon} class="w-14" />
+                <h2 class="text-sm md:text-lg">{step.title}</h2>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div
+      id="stepImages"
+      class="relative h-56 sm:h-80 md:h-[30rem] lg:h-96 lg:flex-1 w-full"
+    >
+      {
+        steps.map((step, i) => (
+          <Image
+            class:list={[
+              "w-[95%] h-auto absolute inset-0 m-auto scale-0 transition-transform duration-200 md:w-full px-4 md:h-auto object-cover lg:pr-20",
+              i === 0 ? "active" : "",
+            ]}
+            src={step.img}
+            alt={`Step ${i + 1}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .active-step {
+    @apply bg-secondary;
+  }
+  .active {
+    @apply scale-100;
+  }
+</style>
+
+<script src="../../scripts/homeInstructions.js"></script>
