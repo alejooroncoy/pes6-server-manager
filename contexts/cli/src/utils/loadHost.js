@@ -11,7 +11,6 @@ export default async function loadHost(host) {
       await internetAvailable();
       await getHostFromUrl(host);
     } catch (err) {
-      console.log(err);
       await getHostFromCache(pathCacheHost, host.toLowerCase());
     }
   }
