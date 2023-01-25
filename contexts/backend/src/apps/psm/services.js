@@ -9,15 +9,15 @@ const psmServices = {
       .from("url")
       .download(`urlMediafire-${version}.txt`);
     const url = await urlDownloaded.data.text();
-    return url;
+    const link = await getLinkFromMediafire(url);
+    return link;
   },
   async uploadPsmFileBin(body, version) {
     const { supabase } = this;
     const { url } = body;
-    const link = await getLinkFromMediafire(url);
     const data = await supabase.storage
       .from("url")
-      .upload(`urlMediafire-${version}.txt`, link, {
+      .upload(`urlMediafire-${version}.txt`, url, {
         upsert: true,
       });
 
