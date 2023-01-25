@@ -1,0 +1,60 @@
+---
+import { Icon } from "astro-icon";
+import InstagramSvg from "../componentsSvg/instagramSvg.astro";
+---
+
+<footer class="bg-primary">
+  <nav>
+    <div
+      class="flex flex-col gap-4 py-4 md:px-4 md:flex-row-reverse md:flex-wrap"
+    >
+      <div class="px-4 flex flex-col flex-wrap gap-1 w-11/12 mx-auto md:flex-1">
+        <h2 class="text-xl font-bold text-slate-50">Our social networks:</h2>
+        <ul class="flex gap-2 w-full flex-wrap justify-start relative">
+          <li>
+            <a href="https://www.instagram.com/psm.pes6/">
+              <InstagramSvg size={30} />
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:psm.team.pes6@gmail.com?Subject=Hi!%20I%20have%20an%20upgrade%20for%20PSM!"
+            >
+              <Icon class="w-8 h-8 text-red-500" name="simple-icons:gmail" />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 flex flex-col flex-wrap gap-1 w-11/12 mx-auto md:flex-1">
+        <h2 class="text-xl font-bold text-slate-100">Authors:</h2>
+        <ul class="flex gap-2 w-full flex-wrap justify-start relative">
+          <li>
+            <a
+              class="flex items-center gap-1 md:gap-2 text-slate-200"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/alejooroncoy"
+            >
+              <Icon class="w-5 h-5 text-black" name="mdi:github" />
+              @alejooroncoy
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 flex flex-col flex-wrap gap-1 w-11/12 mx-auto md:flex-1">
+        <h2 class="text-xl font-bold text-slate-100">Thanks:</h2>
+        <p class="text-slate-50">
+          Hi!, thanks for visiting the PSM page, I hope you can use our service
+          to play among the servers of the great game that is PES6.
+        </p>
+      </div>
+
+      <h3 class="text-center text-sm md:text-md text-slate-200 px-8 flex-full">
+        Copyright <i class="not-italic">©</i> 2023 <a
+          href="/"
+          class="font-bold text-secondary">PSM</a
+        >. Todos los derechos reservados.
+      </h3>
+    </div>
+  </nav>
+</footer>
