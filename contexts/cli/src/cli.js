@@ -6,6 +6,12 @@ import openPes6 from "./utils/openPes6.js";
 import loadHost from "./utils/loadHost.js";
 import Spinner from "./utils/Spinner.js";
 import errorHandler from "./handlers/error.handler.js";
+import fs from "node:fs";
+
+const log = new console.Console(
+  fs.createWriteStream("log.txt"),
+  fs.createWriteStream("error.txt")
+);
 
 program
   .name("psm")
@@ -31,7 +37,7 @@ const cli = async ({ open }) => {
     }))
     .map((host) => ({
       title: host.name,
-      description: `Server ${host.name} ✨`,
+      description: `${host.description} ✨`,
       value: host.name,
       disabled: host.status !== "working",
     }));
@@ -41,7 +47,7 @@ const cli = async ({ open }) => {
     message: config.message,
     choices,
     initial: hosts.findIndex((host) => host.name === config.hostDefault),
-    warn: `This server is still under development to be able to change its host, coming soon available ✨🛠`,
+    warn: `This server is still in development to integrate it to PSM, soon available ✨🛠, another case would be its disuse 😢`,
   });
   if (host) {
     await loadHost(host);
