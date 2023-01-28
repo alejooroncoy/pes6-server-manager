@@ -10,6 +10,7 @@ export default function errorHandler() {
   const handleError = (error) => {
     errorStream.write(String(error));
     errorStream.end();
+    process.exit(1);
   };
 
   process.on("unhandledRejection", handleError);
