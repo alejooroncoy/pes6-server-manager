@@ -6,12 +6,6 @@ import openPes6 from "./utils/openPes6.js";
 import loadHost from "./utils/loadHost.js";
 import Spinner from "./utils/Spinner.js";
 import errorHandler from "./handlers/error.handler.js";
-import fs from "node:fs";
-
-const log = new console.Console(
-  fs.createWriteStream("log.txt"),
-  fs.createWriteStream("error.txt")
-);
 
 program
   .name("psm")
