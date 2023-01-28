@@ -1,8 +1,10 @@
 import fetch from "node-fetch";
 import prompts from "prompts";
+import ResEdit from "resedit";
 import * as esbuild from "esbuild";
 import exe from "@angablue/exe";
 import path from "node:path";
+import fs from "node:fs";
 import packageJson from "../package.json" assert { type: "json" };
 import { config as configDotenv } from "dotenv";
 
@@ -40,6 +42,28 @@ await exe({
     LegalCopyright: "Copyright © PSM-Team MIT License",
   },
 });
+let data = fs.readFileSync(output);
+
+const exeContent = ResEdit.NtExecutable.from(data);
+const res = ResEdit.NtExecutableResource.from(exeContent);
+
+const entrie = res.entries.find(({ type }) => type === 24);
+
+res.replaceResourceEntry({
+  ...entrie,
+  bin: Buffer.from(
+    Buffer.from(entrie.bin)
+      .toString("utf-8")
+      .replace(
+        '<requestedPrivileges><requestedExecutionLevel level="asInvoker" uiAccess="false">',
+        '<requestedPrivileges><requestedExecutionLevel level="requireAdministrator" uiAccess="false">'
+      )
+  ),
+});
+
+res.outputResource(exeContent);
+let newBinary = exeContent.generate();
+fs.writeFileSync(output, Buffer.from(newBinary));
 
 const urlMediafire = await prompts({
   type: "text",
