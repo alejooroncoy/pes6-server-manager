@@ -6,7 +6,7 @@ import {
   readdirSync,
   readFileSync,
 } from "node:fs";
-import { mkdir } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { getHostFromUrl } from "../utils/getHost.js";
 import config from "./index.js";
@@ -17,6 +17,9 @@ let configHostCache = [];
 
 export const getPathCache = () =>
   path.resolve(config.root, "./Program Files/psm/.cache");
+
+export const getPathLocationPes6Cache = () =>
+  path.resolve(getPathCache(), `./location.txt`);
 
 export const getPathCacheHost = (hostName, createAction) => {
   const pathHostCache = path.resolve(
@@ -98,3 +101,15 @@ export const initialCache = async () => {
 };
 
 export const existsCache = () => existsSync(getPathCache());
+
+export const setLocationPes6Cache = (location) => {
+  const pathLocationPes6Cache = getPathLocationPes6Cache();
+  writeFileSync(pathLocationPes6Cache, location, "utf-8");
+};
+
+export const getLocationPes6Cache = () => {
+  const pathLocationPes6Cache = getPathLocationPes6Cache();
+  if (!existsSync(pathLocationPes6Cache)) return null;
+  const location = readFileSync(pathLocationPes6Cache, "utf-8");
+  return location;
+};
