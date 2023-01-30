@@ -6,7 +6,7 @@ import {
   readdirSync,
   readFileSync,
 } from "node:fs";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { getHostFromUrl } from "../utils/getHost.js";
 import config from "./index.js";
@@ -20,6 +20,9 @@ export const getPathCache = () =>
 
 export const getPathLocationPes6Cache = () =>
   path.resolve(getPathCache(), `./location.txt`);
+
+export const getPathSerialPes6Cache = () =>
+  path.resolve(getPathCache(), `./serial.txt`);
 
 export const getPathCacheHost = (hostName, createAction) => {
   const pathHostCache = path.resolve(
@@ -95,6 +98,7 @@ export const setConfigHost = async (hostName) => {
 };
 
 export const initialCache = async () => {
+  console.log(getPathCache());
   await mkdir(getPathCache(), {
     recursive: true,
   });
@@ -112,4 +116,16 @@ export const getLocationPes6Cache = () => {
   if (!existsSync(pathLocationPes6Cache)) return null;
   const location = readFileSync(pathLocationPes6Cache, "utf-8");
   return location;
+};
+
+export const setSerialPes6Cache = (serial) => {
+  const pathSerialPes6Cache = getPathSerialPes6Cache();
+  writeFileSync(pathSerialPes6Cache, serial, "utf-8");
+};
+
+export const getSerialPes6Cache = () => {
+  const pathSerialPes6Cache = getPathSerialPes6Cache();
+  if (!existsSync(pathSerialPes6Cache)) return null;
+  const serial = readFileSync(pathSerialPes6Cache, "utf-8");
+  return serial;
 };

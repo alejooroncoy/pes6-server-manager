@@ -42,11 +42,44 @@ const changeLocationPathPes6 = async (locationPes6Cache) => {
 const config = {
   windDir: "",
   baseUrl: process.env.BASE_URL,
+  __serial: null,
+  pes6PathProperty: `HKLM:\\SOFTWARE\\WOW6432Node\\KONAMIPES6\\PES6`,
+  get serial() {
+    if (this.__serial) return this.__serial;
+    this.__serial = execFileSync(
+      "powershell.exe",
+      [`(Get-ItemProperty -Path ${this.pes6PathProperty}).code`],
+      {
+        encoding: "utf-8",
+      }
+    );
+    return this.__serial.trim();
+  },
+  set serial(newSerial) {
+    execFileSync(
+      "powershell.exe",
+      [
+        `Set-ItemProperty -Path ${
+          this.pes6PathProperty
+        } -Name code -Value "${newSerial.trim()}"`,
+      ],
+      {
+        encoding: "utf-8",
+      }
+    );
+    this.__serial = newSerial.trim();
+  },
   getRootPowershell() {
     if (!this.winDir) {
-      this.winDir = execFileSync("powershell.exe", ["echo $env:windir"], {
-        encoding: "utf-8",
-      });
+      this.winDir = execFileSync(
+        "powershell.exe",
+        [
+          "(Get-PSDrive -PSProvider FileSystem | ConvertTo-Json | ConvertFrom-Json).root",
+        ],
+        {
+          encoding: "utf-8",
+        }
+      );
     }
     const winDirParsed = pathWindows.parse(this.winDir.trim());
     const [device] = winDirParsed.root.split(":");
@@ -80,6 +113,7 @@ const config = {
       console.log(`Loaded servers ⚽✨`);
       return list;
     } catch (err) {
+      console.log(err);
       if (existsCache()) {
         console.log(`Loading servers from ${getPathCache()} ⌛✨`);
         const list = getCacheList();
