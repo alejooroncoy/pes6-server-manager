@@ -48,4 +48,4 @@ const homeContact = () => {
   formProposal.addEventListener("submit", handleSubmitProposal);
 };
 
-window.addEventListener("DOMContentLoaded", homeContact);
+export default homeContact;
