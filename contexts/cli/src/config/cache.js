@@ -98,7 +98,6 @@ export const setConfigHost = async (hostName) => {
 };
 
 export const initialCache = async () => {
-  console.log(getPathCache());
   await mkdir(getPathCache(), {
     recursive: true,
   });
