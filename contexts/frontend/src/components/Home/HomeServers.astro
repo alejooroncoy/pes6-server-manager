@@ -36,27 +36,30 @@ const { data: servers }: ResponseServers = await response.json();
         servers
           .filter(({ status }) => status === "working")
           .map(({ img, urlHome, name }) => (
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              class="menu__link"
-              href={urlHome}
-            >
-              <img
-                id={
-                  (name === "brasil_server" && "pes6BrasilServer") || undefined
-                }
-                class:list={[
-                  "menu__link__img",
-                  name === "brasil_server" ? "p-4 rounded" : "",
-                  name === "ps2" || name === "indie" ? "w-36 md:w-60" : "",
-                ]}
-                alt="Pes6.es logo"
-                src={img}
-                width="auto"
-                height="auto"
-              />
-            </a>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                class="menu__link"
+                href={urlHome}
+              >
+                <img
+                  id={
+                    (name === "brasil_server" && "pes6BrasilServer") ||
+                    undefined
+                  }
+                  class:list={[
+                    "menu__link__img",
+                    name === "brasil_server" ? "p-4 rounded" : "",
+                    name === "ps2" || name === "indie" ? "w-36 md:w-60" : "",
+                  ]}
+                  alt={`${name.replace("_", " ")} logo`}
+                  src={img}
+                  width="auto"
+                  height="auto"
+                />
+              </a>
+            </li>
           ))
       }
     </ul>
@@ -68,4 +71,3 @@ const { data: servers }: ResponseServers = await response.json();
     @apply w-56 grayscale transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105 md:w-80;
   }
 </style>
-
