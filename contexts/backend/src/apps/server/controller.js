@@ -5,8 +5,12 @@ import serverServices from "./services.js";
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
-export const getAllServers = async (req, res) => {
+export const getAllServers = async (req, res, next) => {
   const servers = await serverServices.getAll();
+  if (servers.status === 0) {
+    next(Error("Failed to obtain available servers"));
+    return;
+  }
   res.status(servers.status).json(servers);
 };
 
