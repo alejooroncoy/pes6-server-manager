@@ -1,10 +1,11 @@
 import fetch from "node-fetch";
 import prompts from "prompts";
 import pathWindows from "node:path/win32";
+import path from "node:path";
 import { existsSync } from "node:fs";
 import isWsl from "is-wsl";
 import internetAvailable from "internet-available";
-import { exec, execFileSync } from "node:child_process";
+import { spawnSync, execFile, execFileSync } from "node:child_process";
 import { config as configDotenv } from "dotenv";
 
 import { isWindows } from "../utils/findOs.js";
@@ -17,46 +18,76 @@ import {
   setCache,
   setLocationPes6Cache,
 } from "./cache.js";
-import path from "node:path";
 
 configDotenv();
 
-const changeLocationPathPes6 = async (locationPes6Cache) => {
+const changeLocationPathPes6 = async (locationPes6Cache, { spinner, name }) => {
   let location = locationPes6Cache;
-  const { value } = await prompts({
-    name: "Want to update the path where your Pes6.exe file is located? 🤔",
+  spinner.pause();
+  const { wantUpdate } = await prompts({
+    message: "Want to update the path where your Pes6.exe file is located? 🤔",
     type: "confirm",
+    name: "wantUpdate",
   });
-  if (value) {
-    const { value: locationPesUser } = await prompts({
-      name: `Type the new path 📃`,
+  if (wantUpdate) {
+    const { locationPesUser } = await prompts({
+      message: `Type the new path 📃`,
       type: "text",
-      style: "emoji",
+      name: "locationPesUser",
     });
     setLocationPes6Cache(locationPesUser);
     location = locationPesUser;
   }
-  return pathWindows.format(location).replaceAll(pathWindows.sep, "/");
+
+  try {
+    const locationFormatted = pathWindows
+      .format(location)
+      .replaceAll(pathWindows.sep, "/");
+    spinner.play();
+    return locationFormatted;
+  } catch (err) {
+    console.log(
+      !location
+        ? "Please enter a valid path! 😁"
+        : `${location} isn't path available ❌`
+    );
+    process.exit(0);
+  }
 };
 
 const config = {
+  name: "PSM",
   windDir: "",
-  baseUrl: process.env.BASE_URL,
+  spinner: null,
+  baseUrl: "",
+  updateBaseUrl() {
+    const { BASES_URL: basesUrl } = process.env;
+    const basesUrlList = basesUrl.split(",");
+    if (this.index >= 0 && basesUrlList.length > this.index) this.index++;
+    else if (this.index === undefined) this.index = 0;
+    this.baseUrl = basesUrlList.at(this.index);
+  },
   __serial: null,
   pes6PathProperty: `HKLM:\\SOFTWARE\\WOW6432Node\\KONAMIPES6\\PES6`,
   get serial() {
     if (this.__serial) return this.__serial;
-    this.__serial = execFileSync(
+    const spawn = spawnSync(
       "powershell.exe",
       [`(Get-ItemProperty -Path ${this.pes6PathProperty}).code`],
       {
         encoding: "utf-8",
       }
     );
+    if (spawn.stderr.toString().trim()) {
+      console.log("SERIAL not found, we recommend installing pes6.exe 🙌");
+      this.__serial = "";
+    } else {
+      this.__serial = spawn.output;
+    }
     return this.__serial.trim();
   },
   set serial(newSerial) {
-    execFileSync(
+    const spawn = spawnSync(
       "powershell.exe",
       [
         `Set-ItemProperty -Path ${
@@ -67,22 +98,31 @@ const config = {
         encoding: "utf-8",
       }
     );
+    if (spawn.stderr.toString().trim()) {
+      console.log(
+        `This server needs SERIAL change, we tried to change it, but we couldn’t, you can manually change it to this ${newSerial} serial. 😢`
+      );
+    }
     this.__serial = newSerial.trim();
   },
   getRootPowershell() {
     if (!this.winDir) {
       this.winDir = execFileSync(
         "powershell.exe",
-        [
-          "(Get-PSDrive -PSProvider FileSystem | ConvertTo-Json | ConvertFrom-Json).root",
-        ],
+        ["(Get-PSDrive -PSProvider FileSystem).root"],
         {
           encoding: "utf-8",
         }
       );
     }
-    const winDirParsed = pathWindows.parse(this.winDir.trim());
+
+    const [root] = this.winDir
+      .trim()
+      .split("\n")
+      .map((root) => root.trim());
+    const winDirParsed = pathWindows.parse(root.trim());
     const [device] = winDirParsed.root.split(":");
+
     return [device, winDirParsed];
   },
   cli: false,
@@ -100,20 +140,32 @@ const config = {
    * @type {string[]}
    */
   async getHosts() {
+    let success = false;
     try {
       await internetAvailable();
-      const urlListHosts = new URL(`${this.baseUrl}/server/list`);
-      console.log(`Loading servers from ${urlListHosts} ⌛✨`);
-      const response = await fetch(urlListHosts, {
-        method: "GET",
-      });
-      const { data: list } = await response.json();
-      if (!existsCache()) await initialCache();
-      setCache(list, "hosts");
-      console.log(`Loaded servers ⚽✨`);
-      return list;
+      do {
+        try {
+          this.updateBaseUrl();
+          const urlListHosts = new URL(`${this.baseUrl}/server/list`);
+          console.log(`Loading servers from ${urlListHosts} ⌛✨`);
+          const response = await fetch(urlListHosts, {
+            method: "GET",
+          });
+          const { data: list } = await response.json();
+          if (!existsCache()) await initialCache();
+          setCache(list, "hosts");
+          console.log(`Loaded servers ⚽✨`);
+          success = true;
+          return list;
+        } catch (err) {
+          this.updateBaseUrl();
+        }
+      } while (this.baseUrl || !success);
+      console.log(
+        `Our cloud service has problems now, we will try to get the cache data! 😢⚽`
+      );
+      throw Error("Try in cache");
     } catch (err) {
-      console.log(err);
       if (existsCache()) {
         console.log(`Loading servers from ${getPathCache()} ⌛✨`);
         const list = getCacheList();
@@ -152,7 +204,7 @@ const config = {
     if (isWsl || isWindows()) {
       const locationPes6Cache = getLocationPes6Cache();
       if (locationPes6Cache) {
-        const location = changeLocationPathPes6(locationPes6Cache);
+        const location = changeLocationPathPes6(locationPes6Cache, this);
         return location;
       }
       const pathPes6Default = path.resolve(
@@ -162,41 +214,52 @@ const config = {
       if (existsSync(pathPes6Default)) return pathPes6Default;
 
       const findLocationPes = new Promise((res, rej) => {
-        exec(
-          `powershell.exe ${config.commandLocationPes}`,
+        execFile(
+          "powershell.exe",
+          [config.commandLocationPes],
+          {
+            encoding: "utf-8",
+          },
           (err, locationPes) => {
-            if (err) return rej(err);
+            if (err) return res("");
             res(locationPes);
           }
         );
       });
-      const locationPes = await findLocationPes;
-      if (!locationPes) {
-        const example =
-          "C:/Program Files (x86)/KONAMI/Pro Evolution Soccer 6".replaceAll(
-            "/",
-            pathWindows.sep
-          );
-        const { value: locationPesUser } = await prompts({
-          name: `We could not autodect the location of your PES6.exe, please, you could give us the folder where your file is located, example (${example}). [Just this once 😎]`,
-          type: "text",
-          style: "emoji",
-        });
-        const locationPesUserFormatted = pathWindows
-          .format(setLocationPes6Cache(locationPesUser))
-          .replaceAll(pathWindows.sep, "/");
-        return locationPesUserFormatted;
-      }
-      const locationPesParsed = pathWindows.parse(locationPes.trim());
-      locationPesParsed.dir = locationPesParsed.dir.replace(
-        locationPesParsed.root,
-        ""
-      );
-      locationPesParsed.root = this.root;
+      try {
+        const locationPes = await findLocationPes;
+        if (!locationPes) {
+          const example =
+            "C:/Program Files (x86)/KONAMI/Pro Evolution Soccer 6".replaceAll(
+              "/",
+              pathWindows.sep
+            );
+          this.spinner.stop();
+          const { locationPesUser } = await prompts({
+            message: `We could not autodect the location of your PES6.exe, please, you could give us the folder where your file is located, example (${example}). [Just this once 😎]`,
+            name: "locationPesUser",
+            type: "text",
+          });
+          const locationPesUserFormatted = pathWindows
+            .format(setLocationPes6Cache(locationPesUser))
+            .replaceAll(pathWindows.sep, "/");
+          this.spinner.play();
+          return locationPesUserFormatted;
+        }
+        const locationPesParsed = pathWindows.parse(locationPes.trim());
+        locationPesParsed.dir = locationPesParsed.dir.replace(
+          locationPesParsed.root,
+          ""
+        );
+        locationPesParsed.root = this.root;
 
-      return pathWindows
-        .format(locationPesParsed)
-        .replaceAll(pathWindows.sep, "/");
+        return pathWindows
+          .format(locationPesParsed)
+          .replaceAll(pathWindows.sep, "/");
+      } catch (err) {
+        console.log("We couldn’t find your pes6.exe file path:(");
+        process.exit(0);
+      }
     }
   },
   get commandStartPes6() {

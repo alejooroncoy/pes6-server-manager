@@ -150,4 +150,12 @@ export default class Spinner {
     );
     process.stdout.write("\u001B[?25h");
   };
+  stopped = false;
+  pause = () => {
+    this.stopped = true;
+    this.stop();
+  };
+  play = () => {
+    if (this.stopped) this.start();
+  };
 }

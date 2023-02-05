@@ -68,4 +68,4 @@ const homeInstructions = () => {
   });
 };
 
-window.addEventListener("DOMContentLoaded", homeInstructions);
+export default homeInstructions;

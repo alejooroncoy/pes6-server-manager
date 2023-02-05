@@ -12,80 +12,108 @@ configDotenv();
 
 const { version } = packageJson;
 
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 60000 } = options;
+  
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+  return response;
+}
+
 const pathPsmJs = path.resolve("./dist/psm.js");
 const output = path.resolve("./dist/psm.exe");
 
-const baseUrl = process.env.BASE_URL;
+const basesUrl = process.env.BASES_URL;
+const basesUrlList = basesUrl.split(',');
+let index = 0;
 
-await esbuild.build({
-  entryPoints: ["./src/cli.js"],
-  outfile: pathPsmJs,
-  bundle: true,
-  target: "node18",
-  platform: "node",
-  define: {
-    "process.env.BASE_URL": `"${baseUrl}"`,
-  },
-});
+let baseUrl = null;
 
-await exe({
-  entry: pathPsmJs,
-  out: output,
-  pkg: ["-C", "GZip"], // Specify extra pkg arguments
-  version,
-  target: "latest-win-x64",
-  icon: "./src/assets/logo-psm.ico", // Application icons must be in .ico format
-  properties: {
-    CompanyName: "PSM-Team",
-    ProductName: "PSM Bin",
-    FileDescription: "Pes6 server manager version Bin. 💻⚽",
-    LegalCopyright: "Copyright © PSM-Team MIT License",
-  },
-});
-let data = fs.readFileSync(output);
-
-const exeContent = ResEdit.NtExecutable.from(data);
-const res = ResEdit.NtExecutableResource.from(exeContent);
-
-const entrie = res.entries.find(({ type }) => type === 24);
-
-res.replaceResourceEntry({
-  ...entrie,
-  bin: Buffer.from(
-    Buffer.from(entrie.bin)
-      .toString("utf-8")
-      .replace(
-        '<requestedPrivileges><requestedExecutionLevel level="asInvoker" uiAccess="false">',
-        '<requestedPrivileges><requestedExecutionLevel level="requireAdministrator" uiAccess="false">'
-      )
-  ),
-});
-
-res.outputResource(exeContent);
-let newBinary = exeContent.generate();
-fs.writeFileSync(output, Buffer.from(newBinary));
-
-const urlMediafire = await prompts({
-  type: "text",
-  name: "value",
-  message: "Write url mediafire of the file",
-});
-
-const headersFetch = new Headers();
-
-headersFetch.append("Content-Type", "application/json; charset=utf-8");
-
-if (urlMediafire.value || process.env.URL_MEDIAFIRE) {
-  const response = await fetch(`${baseUrl}/psm/bin?version=${version}`, {
-    method: "POST",
-    body: JSON.stringify({
-      url: process.env.URL_MEDIAFIRE || urlMediafire.value,
-    }),
-    headers: headersFetch,
+do {
+  baseUrl = basesUrlList.at(index);
+  await esbuild.build({
+    entryPoints: ["./src/cli.js"],
+    outfile: pathPsmJs,
+    bundle: true,
+    target: "node18",
+    platform: "node",
+    define: {
+      "process.env.BASE_URL": `"${baseUrl}"`,
+    },
   });
-  const data = await response.json();
-  console.log(data);
+  
+  await exe({
+    entry: pathPsmJs,
+    out: output,
+    pkg: ["-C", "GZip"], // Specify extra pkg arguments
+    version,
+    target: "latest-win-x64",
+    icon: "./src/assets/logo-psm.ico", // Application icons must be in .ico format
+    properties: {
+      CompanyName: "PSM-Team",
+      ProductName: "PSM Bin",
+      FileDescription: "Pes6 server manager version Bin. 💻⚽",
+      LegalCopyright: "Copyright © PSM-Team MIT License",
+    },
+  });
+  let data = fs.readFileSync(output);
+  
+  const exeContent = ResEdit.NtExecutable.from(data);
+  const res = ResEdit.NtExecutableResource.from(exeContent);
+  
+  const entrie = res.entries.find(({ type }) => type === 24);
+  
+  res.replaceResourceEntry({
+    ...entrie,
+    bin: Buffer.from(
+      Buffer.from(entrie.bin)
+        .toString("utf-8")
+        .replace(
+          '<requestedPrivileges><requestedExecutionLevel level="asInvoker" uiAccess="false">',
+          '<requestedPrivileges><requestedExecutionLevel level="requireAdministrator" uiAccess="false">'
+        )
+    ),
+  });
+  
+  res.outputResource(exeContent);
+  let newBinary = exeContent.generate();
+  fs.writeFileSync(output, Buffer.from(newBinary));
+  
+  const urlMediafire = await prompts({
+    type: "text",
+    name: "value",
+    message: "Write url mediafire of the file",
+  });
+  
+  const headersFetch = new Headers();
+  
+  headersFetch.append("Content-Type", "application/json; charset=utf-8");
+  
+  if (urlMediafire.value || process.env.URL_MEDIAFIRE) {
+    try {
+      const response = await fetchWithTimeout(`${baseUrl}/psm/bin?version=${version}`, {
+        method: "POST",
+        body: JSON.stringify({
+          url: process.env.URL_MEDIAFIRE || urlMediafire.value,
+        }),
+        headers: headersFetch,
+        
+      });
+      
+      const data = await response.json();
+      console.log(data);
+    } catch(err) {
+      index++;
+      baseUrl = basesUrlList.at(index);
+    }
+  }else {
+    console.log("Missing url mediafire");
+  }
   process.exit(0);
-}
 
-console.log("Missing url mediafire");
+} while(baseUrl || !success);

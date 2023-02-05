@@ -2,10 +2,10 @@ import path from "node:path";
 import { exec } from "node:child_process";
 import config from "../config/index.js";
 
-export default async function openPes6(spinner, callback) {
+export default async function openPes6(callback) {
   const locationPes = await config.getLocationPes();
   const pathPes6 = path.resolve(config.root, locationPes);
-  spinner.text = `Open pes6 from ${locationPes} ✨⚽`;
+  config.spinner.text = `Open pes6 from ${locationPes} ✨⚽`;
   const execPes6 = exec(`cd "${pathPes6}" && ${config.commandStartPes6}`, {
     timeout: 0,
   });

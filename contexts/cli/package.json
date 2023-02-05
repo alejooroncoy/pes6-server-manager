@@ -20,6 +20,7 @@
     "internet-available": "^1.0.0",
     "is-wsl": "^2.2.0",
     "node-fetch": "^3.3.0",
+    "node-notifier": "^10.0.1",
     "prompts": "^2.4.2"
   },
   "devDependencies": {

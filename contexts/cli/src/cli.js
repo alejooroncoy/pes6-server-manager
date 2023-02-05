@@ -56,12 +56,12 @@ const cli = async ({ open }) => {
       isOpen = canOpen;
     }
     if (isOpen) {
-      const spinner = new Spinner({
+      config.spinner = new Spinner({
         text: "Opening Pes 6...",
       });
-      spinner.start("Opening Pes 6...");
-      return openPes6(spinner, () => {
-        spinner.stop(`Opened pes 6! ⚽😉`);
+      config.spinner.start("Opening Pes 6...");
+      return openPes6(() => {
+        config.spinner.stop(`Opened pes 6! ⚽😉`);
         process.exit(0);
       });
     }

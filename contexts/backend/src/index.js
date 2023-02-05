@@ -5,6 +5,7 @@ import server from "./apps/server/routes.js";
 import psm from "./apps/psm/routes.js";
 import noFoundHandler from "./middlewares/notFound.handler.js";
 import proposal from "./apps/proposal/routes.js";
+import errorHandler from "./middlewares/error.handler.js";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/server", server);
 app.use("/psm", psm);
 
 app.use(noFoundHandler);
+app.use(errorHandler);
 
 app.listen(config.port, () => {
   // eslint-disable-next-line no-console
