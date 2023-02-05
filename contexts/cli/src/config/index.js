@@ -4,7 +4,6 @@ import pathWindows from "node:path/win32";
 import path from "node:path";
 import { existsSync } from "node:fs";
 import isWsl from "is-wsl";
-import notifier from "node-notifier";
 import internetAvailable from "internet-available";
 import { spawnSync, execFile, execFileSync } from "node:child_process";
 import { config as configDotenv } from "dotenv";
@@ -52,26 +51,6 @@ const changeLocationPathPes6 = async (locationPes6Cache, { spinner, name }) => {
         ? "Please enter a valid path! 😁"
         : `${location} isn't path available ❌`
     );
-    const notifyPromise = new Promise((rej, res) => {
-      notifier.notify(
-        {
-          title: name,
-          message: !location
-            ? "Please enter a valid path! 😁"
-            : `${location} isn't path available ❌`,
-          icon: path.join(
-            import.meta.url.replace("file:///", ""),
-            "../..",
-            "./assets/logo-psm.ico"
-          ),
-        },
-        (err) => {
-          if (err) return rej(err);
-          res();
-        }
-      );
-    });
-    await notifyPromise;
     process.exit(0);
   }
 };
@@ -80,7 +59,14 @@ const config = {
   name: "PSM",
   windDir: "",
   spinner: null,
-  baseUrl: process.env.BASE_URL,
+  baseUrl: "",
+  updateBaseUrl() {
+    const { BASES_URL: basesUrl } = process.env;
+    const basesUrlList = basesUrl.split(",");
+    if (this.index >= 0 && basesUrlList.length > this.index) this.index++;
+    else if (this.index === undefined) this.index = 0;
+    this.baseUrl = basesUrlList.at(this.index);
+  },
   __serial: null,
   pes6PathProperty: `HKLM:\\SOFTWARE\\WOW6432Node\\KONAMIPES6\\PES6`,
   get serial() {
@@ -116,15 +102,6 @@ const config = {
       console.log(
         `This server needs SERIAL change, we tried to change it, but we couldn’t, you can manually change it to this ${newSerial} serial. 😢`
       );
-      notifier.notify({
-        title: this.name,
-        message: `This server needs SERIAL change, we tried to change it, but we couldn’t, you can manually change it to this ${newSerial} serial. 😢`,
-        icon: path.join(
-          import.meta.url.replace("file:///", ""),
-          "../..",
-          "./assets/logo-psm.ico"
-        ),
-      });
     }
     this.__serial = newSerial.trim();
   },
@@ -163,18 +140,31 @@ const config = {
    * @type {string[]}
    */
   async getHosts() {
+    let success = false;
     try {
       await internetAvailable();
-      const urlListHosts = new URL(`${this.baseUrl}/server/list`);
-      console.log(`Loading servers from ${urlListHosts} ⌛✨`);
-      const response = await fetch(urlListHosts, {
-        method: "GET",
-      });
-      const { data: list } = await response.json();
-      if (!existsCache()) await initialCache();
-      setCache(list, "hosts");
-      console.log(`Loaded servers ⚽✨`);
-      return list;
+      do {
+        try {
+          this.updateBaseUrl();
+          const urlListHosts = new URL(`${this.baseUrl}/server/list`);
+          console.log(`Loading servers from ${urlListHosts} ⌛✨`);
+          const response = await fetch(urlListHosts, {
+            method: "GET",
+          });
+          const { data: list } = await response.json();
+          if (!existsCache()) await initialCache();
+          setCache(list, "hosts");
+          console.log(`Loaded servers ⚽✨`);
+          success = true;
+          return list;
+        } catch (err) {
+          this.updateBaseUrl();
+        }
+      } while (this.baseUrl || !success);
+      console.log(
+        `Our cloud service has problems now, we will try to get the cache data! 😢⚽`
+      );
+      throw Error("Try in cache");
     } catch (err) {
       if (existsCache()) {
         console.log(`Loading servers from ${getPathCache()} ⌛✨`);
