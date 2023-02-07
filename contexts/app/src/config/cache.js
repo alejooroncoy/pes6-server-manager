@@ -1,3 +1,5 @@
+"use client";
+
 import {
   exists,
   createDir,
@@ -139,6 +141,6 @@ export const getSerialPes6Cache = async () => {
   const pathSerialPes6Cache = await getPathSerialPes6Cache();
   const isPathSerialPes6Cache = await exists(pathSerialPes6Cache);
   if (!isPathSerialPes6Cache) return null;
-  const serial = readTextFile(pathSerialPes6Cache);
+  const serial = await readTextFile(pathSerialPes6Cache);
   return serial;
 };

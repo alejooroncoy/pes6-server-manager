@@ -1,3 +1,5 @@
+"use client";
+
 import { delimiter, resolve } from "@tauri-apps/api/path";
 import { Command } from "@tauri-apps/api/shell";
 import { getIsWsl, isWindows } from "../utils/getOs";
