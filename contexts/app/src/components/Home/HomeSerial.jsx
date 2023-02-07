@@ -39,14 +39,14 @@ const HomeSerial = () => {
         maxLength={20}
       />
       <button className="leading-8 active:scale-95 transition-transform duration-200 font-bold rounded-md px-2 bg-primary text-white">
-        Cambiar el serial!
+        Change the serial!
       </button>
       <button
         onClick={handleClickRestoreSerial}
         type="button"
         className="leading-8 active:scale-95 transition-transform duration-200 rounded-md font-bold px-2 bg-secondary text-slate-900"
       >
-        Restaurar al serial original
+        Restore to the original serial
       </button>
     </form>
   );
