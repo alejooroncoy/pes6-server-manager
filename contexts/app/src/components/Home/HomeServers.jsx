@@ -1,15 +1,17 @@
-import HomeServersList from "./HomeServersList";
-import getServers from "../../utils/getServers";
+import dynamic from "next/dynamic";
 
-const HomeServers = async () => {
-  const servers = await getServers();
+const HomeServersList = dynamic(() => import("./HomeServersList"), {
+  ssr: false,
+});
+
+const HomeServers = ({ servers }) => {
   return (
-    <section className="py-5">
+    <section id="servers" className="py-5">
       <div className="px-5 flex flex-col gap-2">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
           Servers availables:
         </h2>
-        <p className="text-slate-900 text-sm sm:text-md">
+        <p className="text-slate-900 text-md sm:text-lg">
           Choose the server where you want to play! 🎮⚽
         </p>
         <HomeServersList servers={servers} />
