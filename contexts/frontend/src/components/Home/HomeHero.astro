@@ -24,6 +24,18 @@ import Link from "../Link.astro";
         <div class="m-0 flex flex-col sm:flex-row gap-3">
           <Link
             modifier="dark"
+            href="#ultimate"
+            className="flex gap-1 items-center justify-center bg-gradient-to-tr from-slate-500 to-primary animate-[pulseButton_2s_ease-in-out_infinite]"
+          >
+            <Icon
+              class="text-white w-5 h-5 rotate-90"
+              name="ic:baseline-double-arrow"
+            />
+
+            Look version <span class="font-extrabold">ULTIMATE</span>
+          </Link>
+          <Link
+            modifier="dark"
             href={`${config.baseUrlBackend}/psm/bin?version=0.0.1`}
             target="_blank"
             className="flex gap-1 items-center justify-center bg-primary"
@@ -31,8 +43,9 @@ import Link from "../Link.astro";
           >
             <Icon class="text-white w-5 h-5" name="bx:bxs-cloud-download" />
 
-            Download Version Bin Latest
+            Download Version Lite Latest
           </Link>
+
           <Link
             rel="noopener noreferrer"
             href="https://github.com/alejooroncoy/pes6-server-manager"
