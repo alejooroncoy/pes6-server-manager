@@ -23,6 +23,26 @@ const psmServices = {
 
     return data;
   },
+  async getPsmFileUltimate(version) {
+    const { supabase } = this;
+    const urlDownloaded = await supabase.storage
+      .from("url")
+      .download(`urlMediafire-ultimate-${version}.txt`);
+    const link = await urlDownloaded.data.text();
+    return link;
+  },
+  async uploadPsmFileUltimate(body, version) {
+    const { supabase } = this;
+    const { url } = body;
+    const link = await getLinkFromMediafire(url);
+    const data = await supabase.storage
+      .from("url")
+      .upload(`urlMediafire-ultimate-${version}.txt`, link, {
+        upsert: true,
+      });
+
+    return data;
+  },
 };
 
 export default psmServices;
