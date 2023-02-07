@@ -3,7 +3,13 @@ import logger from "./logger";
 
 const serial = {
   __serial: "",
+  listeners: [],
   pes6PathProperty: `HKLM:\\SOFTWARE\\WOW6432Node\\KONAMIPES6\\PES6`,
+  emitChange() {
+    this.listeners.forEach((listener) => {
+      listener();
+    });
+  },
   async getSerial() {
     if (this.__serial) return this.__serial;
     const command = new Command(
@@ -41,6 +47,16 @@ const serial = {
       );
     }
     this.__serial = newSerial.trim();
+    this.emitChange();
+  },
+  subscribe(listener) {
+    this.listeners = [...this.listeners, listener];
+    return () => {
+      this.listeners = this.listeners.filter((l) => l !== listener);
+    };
+  },
+  getSnapshot() {
+    return this.__serial;
   },
 };
 
