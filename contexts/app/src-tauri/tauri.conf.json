@@ -20,15 +20,24 @@
             "name": "powershell",
             "cmd": "powershell.exe",
             "args": true
+          },
+          {
+            "name": "cmd",
+            "cmd": "cmd.exe",
+            "args": true
           }
         ]
+      },
+      "dialog": {
+        "all": true
       },
       "fs": {
         "all": true,
         "scope": [
           "$APPCACHE/**/*",
           "$APPCACHE",
-          "C:/Windows/System32/drivers/etc/hosts"
+          "C:/Windows/System32/drivers/etc/hosts",
+          "C:/**/*"
         ]
       },
       "os": {
@@ -36,7 +45,11 @@
       },
       "http": {
         "all": true,
-        "scope": ["http://localhost:5000/**/*"," https://psm.up.railway.app/**/*","https://psm-server.onrender.com/**/*"]
+        "scope": [
+          "http://localhost:5000/**/*",
+          " https://psm.up.railway.app/**/*",
+          "https://psm-server.onrender.com/**/*"
+        ]
       },
       "path": {
         "all": true
@@ -70,9 +83,9 @@
       "shortDescription": "",
       "targets": "all",
       "windows": {
-        "certificateThumbprint": null,
+        "certificateThumbprint": "FC2A6269F06FDEEF66A4F4C252C11ED5AEC243DB",
         "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "timestampUrl": "http://timestamp.comodoca.com"
       }
     },
     "security": {
