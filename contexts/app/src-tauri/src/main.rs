@@ -13,7 +13,7 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn is_wsl_tauri() -> bool {
-   return is_wsl()
+    return is_wsl();
 }
 
 fn main() {

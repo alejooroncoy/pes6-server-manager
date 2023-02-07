@@ -18,13 +18,13 @@ export const restoreSerialPs2 = async () => {
   if (serialGetted === PS2_SERIAL_PC) {
     const serialPes6Cache = await getSerialPes6Cache();
     logger.log(`Restoring serial -> ${serialPes6Cache} 📃✨`);
-    await config.setSerial(serialPes6Cache);
+    await serial.setSerial(serialPes6Cache);
   }
 };
 
-export const actionSerial = async (host) => {
-  if (host === "Ps2") await changeSerialPs2();
+export const actionSerial = async (host, setSerial) => {
+  if (host === "ps2") await changeSerialPs2(setSerial);
   else {
-    await restoreSerialPs2();
+    await restoreSerialPs2(setSerial);
   }
 };

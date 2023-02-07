@@ -21,7 +21,7 @@ import {
 
 configDotenv();
 
-const changeLocationPathPes6 = async (locationPes6Cache, { spinner, name }) => {
+const changeLocationPathPes6 = async (locationPes6Cache, { spinner }) => {
   let location = locationPes6Cache;
   spinner.pause();
   const { wantUpdate } = await prompts({

@@ -2,9 +2,9 @@ import InstagramSvg from "../componentsSvg/InstagramSvg";
 import { SiGmail } from "react-icons/si";
 import { BsGithub } from "react-icons/bs";
 
-const Footer = () => {
+const Footer = ({ fontFamily }) => {
   return (
-    <footer className="bg-primary">
+    <footer className={["bg-primary", fontFamily.className].join(" ")}>
       <nav>
         <div className="flex flex-col gap-4 py-4 md:px-4 md:flex-row-reverse md:flex-wrap">
           <div className="px-4 flex flex-col flex-wrap gap-1 w-11/12 mx-auto md:flex-1">

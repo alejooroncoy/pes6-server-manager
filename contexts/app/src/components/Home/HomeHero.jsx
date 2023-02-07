@@ -3,7 +3,7 @@ import LogoPsm from "../../assets/logo-psm.webp";
 
 const HomeHero = () => {
   return (
-    <section className="pt-28 pb-10 sm:pt-24 md:pt-20 bg-gradient-to-tr from-slate-100 to-slate-300">
+    <section className="w-full pt-28 pb-10 sm:pt-24 md:pt-20 bg-gradient-to-tr from-slate-100 to-slate-300">
       <div className="flex flex-col items-center justify-center gap-4 md:flex-row px-5">
         <article className="px-5 md:max-w-[35rem] flex flex-col gap-4">
           <header>

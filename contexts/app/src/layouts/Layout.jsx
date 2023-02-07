@@ -1,12 +1,12 @@
 import Footer from "../components/sections/Footer";
 import Header from "../components/sections/Header";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, fontFamily }) => {
   return (
     <>
-      <Header />
+      <Header fontFamily={fontFamily} />
       {children}
-      <Footer />
+      <Footer fontFamily={fontFamily} />
     </>
   );
 };

@@ -1,5 +1,10 @@
 import config from "../config";
-import { existsCache, getPathCache, initialCache } from "../config/cache";
+import {
+  existsCache,
+  getCacheList,
+  getPathCache,
+  initialCache,
+} from "../config/cache";
 import logger from "./logger";
 
 const hosts = {
@@ -33,6 +38,10 @@ const hosts = {
         return list;
       }
     }
+  },
+  async getHostDefault() {
+    const hostsList = await getCacheList();
+    return hostsList.find((host) => host.activate)?.name || "pes6.es";
   },
 };
 
