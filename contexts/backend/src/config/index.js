@@ -12,6 +12,7 @@ const config = {
   emailjsTemplateId: process.env.EMAILJS_TEMPLATE_ID,
   emailjsUserId: process.env.EMAILJS_USER_ID,
   emailjsAccessToken: process.env.EMAILJS_ACCESS_TOKEN,
+  githubReleaseBase: process.env.GITHUB_RELEASE_BASE,
   port: process.env.PORT || 5000,
 };
 

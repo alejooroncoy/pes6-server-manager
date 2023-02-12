@@ -28,8 +28,9 @@ export const uploadPsmBin = async (req, res) => {
  * @param {import('express').Response} res
  */
 export const getPsmUltimate = async (req, res) => {
-  const { version } = req.query;
-  const url = await psmServices.getPsmFileUltimate(version);
+  const { version, platform } = req.query;
+  const release = await psmServices.getPsmUltimateRelease(version);
+  const { url } = await psmServices.getAsset(release.assets, platform);
   res.redirect(url);
 };
 
@@ -45,4 +46,15 @@ export const uploadPsmUltimate = async (req, res) => {
     version
   );
   res.status(201).send(ultimateUploaded);
+};
+
+/**
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const getPsmUltimateUpdater = async (req, res) => {
+  const { version, platform } = req.query;
+  const updater = await psmServices.getPsmUltimateUpdater(version, platform);
+  res.status(200).json(updater);
 };
