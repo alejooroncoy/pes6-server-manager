@@ -1,5 +1,5 @@
-import logger from "../libs/logger";
 import { Command } from "@tauri-apps/api/shell";
+import logger from "../libs/logger";
 import locationPes6 from "../libs/locationPes6";
 import { getIsWsl, isWindows } from "./getOs";
 
@@ -12,7 +12,7 @@ export default async function openPes6() {
   if (osIsWindows || isWsl) {
     const command = new Command("powershell", commandStartPes6, {
       encoding: "utf-8",
-      cwd: locationPes.slice(0, -1),
+      cwd: locationPes,
     });
     await command.spawn();
   }

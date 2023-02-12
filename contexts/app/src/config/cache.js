@@ -128,7 +128,8 @@ export const getLocationPes6Cache = async () => {
   const pathLocationPes6Cache = await getPathLocationPes6Cache();
   const isPathSerialPes6Cache = await exists(pathLocationPes6Cache);
   if (!isPathSerialPes6Cache) return null;
-  const location = await readTextFile(pathLocationPes6Cache);
+  let location = await readTextFile(pathLocationPes6Cache);
+  if (location.at(-1) === path.sep) location.slice(0, -1);
   return location;
 };
 
