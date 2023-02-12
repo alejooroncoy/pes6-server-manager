@@ -3,10 +3,7 @@ import ServerSvg from "../componentsSvg/ServerSvg";
 const Header = ({ fontFamily }) => {
   return (
     <header
-      className={[
-        "fixed top-0 bg-secondary w-full left-0 z-10",
-        fontFamily.className,
-      ].join(" ")}
+      className={`fixed top-0 bg-secondary w-full left-0 z-10 ${fontFamily.className}`}
     >
       <nav className="py-4">
         <div className="flex items-center justify-center md:justify-between max-w-screen-lg mx-auto md:px-8 lg:px-0">
