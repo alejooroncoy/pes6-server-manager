@@ -16,7 +16,7 @@ tauri-build = { version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["dialog-all", "fs-all", "http-all", "os-all", "path-all", "shell-all"] }
+tauri = { version = "1.2", features = ["dialog-all", "fs-all", "http-all", "os-all", "path-all", "shell-all", "updater"] }
 is-wsl = "0.4.0"
 
 [features]
