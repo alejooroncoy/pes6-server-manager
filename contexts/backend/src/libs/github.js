@@ -1,4 +1,4 @@
-import config from "../config";
+import config from "../config/index.js";
 
 const github = {
   async getReleaseByTag(tag) {
