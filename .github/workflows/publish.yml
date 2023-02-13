@@ -55,6 +55,7 @@ jobs:
           TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
           TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT_PUBLIC_BASES_URL: https://psm.up.railway.app,https://psm-server.onrender.com
         with:
           projectPath: ./contexts/app
           tagName: ${{ github.ref_name }}
