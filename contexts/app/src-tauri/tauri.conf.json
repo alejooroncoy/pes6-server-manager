@@ -96,7 +96,8 @@
       "dialog": true,
       "endpoints": [
         "https://psm.up.railway.app/psm/ultimate/updater?version={{current_version}}&platform={{target}}",
-        "https://psm-server.onrender.com/psm/ultimate/updater?{{current_version}}&platform={{target}}"
+        "https://psm-server.onrender.com/psm/ultimate/updater?{{current_version}}&platform={{target}}",
+        "http://localhost:5000/psm/ultimate/updater?version={{current_version}}&platform={{target}}"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ4RTdBRDE3OTEzQkYyMDkKUldRSjhqdVJGNjNuMkFVN2thcVZqTTBaUHhJTGFTS0NLVkladmhNM0tZUzBkNmdTVDNmME5VMzEK"
     },
