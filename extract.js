@@ -20,7 +20,13 @@ const main = async () => {
       return firstLine === version.trim();
     });
 
-  const contentVersionResolve = `CHANGELOG<<EOF\n##${contentVersion}\nEOF`;
+  const contentWithoutVersion = contentVersion
+    .split("\n")
+    .filter((line) => line.trim() !== version.trim())
+    .join("\n")
+    .trimStart();
+
+  const contentVersionResolve = `CHANGELOG<<EOF\n\t${contentWithoutVersion}\nEOF`;
 
   const { GITHUB_ENV: githubEnv } = process.env;
 
