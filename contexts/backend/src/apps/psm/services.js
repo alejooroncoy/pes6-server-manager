@@ -45,6 +45,10 @@ const psmServices = {
     return data;
   },
   async getPsmUltimateRelease(tag) {
+    if (tag === "latest") {
+      const release = await github.getReleaseLatest();
+      return release;
+    }
     const release = await github.getReleaseByTag(tag);
     return release;
   },
