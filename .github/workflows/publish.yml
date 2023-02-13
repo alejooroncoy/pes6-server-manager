@@ -1,8 +1,8 @@
 name: 'publish'
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*"
 
 jobs:
   publish-tauri:
@@ -60,5 +60,4 @@ jobs:
           tagName: ${{ github.ref_name }}
           releaseName: 'v__VERSION__'
           releaseBody: ${{ env.CHANGELOG }}
-          releaseDraft: true
           prerelease: false
