@@ -7,7 +7,7 @@
     "build": "next build && next export -o dist",
     "tauri": "tauri",
     "publish:app": "tauri build && node ./src/publish.js",
-    "styles": "tailwindcss -i ./src/styles/styles.input.css -o ./src/styles/styles.output.css --watch"
+    "styles": "tailwindcss -i ./src/styles/styles.input.css -o ./src/styles/styles.output.css"
   },
   "dependencies": {
     "@next/font": "^13.1.6",

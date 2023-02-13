@@ -3,6 +3,7 @@
 ## 0.0.1
 
 <h4>Features ✨</h4>
+
   * Play on the available servers ⚽🌟
     Current servers:
       - Stars
