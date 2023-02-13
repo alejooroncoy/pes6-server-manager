@@ -48,22 +48,36 @@ const psmServices = {
     const release = await github.getReleaseByTag(tag);
     return release;
   },
-  async getAsset(assets, platform) {
+  async getAsset(assets, platform = "windows_x86_64", updater = false) {
     const schema = {};
     if (platform === "windows_x86_64") {
-      await Promise.all(
+      const injectUrlAndSig = new Promise((res, rej) => {
+        let index = 0;
         assets.forEach(async (asset) => {
-          const { browser_download_url: browserDownloadUrl } = asset;
-          if (asset.name.endsWith("x64_en-US.msi.zip")) {
-            schema.url = browserDownloadUrl;
-            return;
+          try {
+            const { browser_download_url: browserDownloadUrl } = asset;
+            if (asset.name.endsWith("x64_en-US.msi") && !updater) {
+              schema.url = browserDownloadUrl;
+              index += 1;
+              return;
+            }
+            if (asset.name.endsWith("x64_en-US.msi.zip") && updater) {
+              schema.url = browserDownloadUrl;
+              index += 1;
+              return;
+            }
+            if (asset.name.endsWith("x64_en-US.msi.zip.sig") && updater) {
+              const signature = await github.getSignature(browserDownloadUrl);
+              schema.signature = signature;
+            }
+            index += 1;
+            if (index === assets.length - 1) res();
+          } catch (err) {
+            rej(err);
           }
-          if (asset.name.endsWith("x64_en-US.msi.zip.sig")) {
-            const signature = await github.getSignature(browserDownloadUrl);
-            schema.signature = signature;
-          }
-        })
-      );
+        });
+      });
+      await injectUrlAndSig;
     }
     return schema;
   },
@@ -76,7 +90,11 @@ const psmServices = {
       pub_date: release.published_at,
       signature: "",
     };
-    const { url, signature } = await this.getAsset(release.assets, platform);
+    const { url, signature } = await this.getAsset(
+      release.assets,
+      platform,
+      true
+    );
     schema.url = url;
     schema.signature = signature;
     return schema;
