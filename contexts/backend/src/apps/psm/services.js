@@ -74,8 +74,11 @@ const psmServices = {
               const signature = await github.getSignature(browserDownloadUrl);
               schema.signature = signature;
             }
+            if (index === assets.length - 1) {
+              res();
+              return;
+            }
             index += 1;
-            if (index === assets.length - 1) res();
           } catch (err) {
             rej(err);
           }
@@ -87,6 +90,7 @@ const psmServices = {
   },
   async getPsmUltimateUpdater(tag, platform = "windows_x86_64") {
     const release = await this.getPsmUltimateRelease(tag);
+    // console.log(release);
     const schema = {
       url: "",
       version: release.tag_name,
