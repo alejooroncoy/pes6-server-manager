@@ -2,7 +2,7 @@
   "name": "psm",
   "description": "Pes6 server manager helps its users to be able to have control of the servers where they play. In this way, with a few simple clicks, play PES 6 on the server of your choice. 💻⚽",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.2",
   "license": "GNU AGPLv3",
   "scripts": {
     "dev": "next dev -p 1420",
