@@ -41,7 +41,7 @@ const hosts = {
   },
   async getHostDefault() {
     const hostsList = await getCacheList();
-    return hostsList.find((host) => host.activate)?.name || "pes6.es";
+    return hostsList.find((host) => host.activate)?.id || 2;
   },
 };
 
