@@ -16,21 +16,21 @@ const HomeMessage = () => {
           number, thus improving our service.{" "}
         </p>
         <a
-          className="w-full bg-primary p-2 rounded font-bold active:scale-95 transition-transform duration-200 flex gap-2 items-center justify-center"
-          href="wa.link/wkiukd"
+          className="w-full bg-primary p-2 rounded font-bold active:scale-95 transition-transform duration-200 flex gap-2 items-center justify-center text-center flex-row sm:flex-col md:flex-row"
+          href="https://wa.link/wkiukd"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <BsWhatsapp />
+          <BsWhatsapp size={20} />
           PSM whatsapp
         </a>
         <a
-          className="w-full bg-secondary p-2 rounded font-bold text-slate-900 active:scale-95 transition-transform duration-200 flex gap-2 items-center justify-center"
+          className="w-full bg-secondary p-2 rounded font-bold text-slate-900 active:scale-95 transition-transform duration-200 flex gap-2 items-center justify-center text-center flex-row sm:flex-col md:flex-row"
           href="mailto:psm.team.pes6@gmail.com?Subject=Hi!%20I%20have%20an%20upgrade%20for%20PSM!"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <AiOutlineMail />
+          <AiOutlineMail size={20} />
           PSM email
         </a>
       </div>
