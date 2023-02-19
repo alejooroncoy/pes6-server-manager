@@ -5,12 +5,13 @@ import hosts from "../libs/hosts";
 
 export default function useServers(serversGetted) {
   const [servers, setServers] = useState(serversGetted);
-  const [serverPlaying, setServerPlaying] = useState("");
+  const [serverPlaying, setServerPlaying] = useState(null);
 
-  const chooseServer = async (serverName) => {
+  const chooseServer = async (id) => {
+    const server = servers.find((server) => server.id === id);
     if (!configHostCache.length) await setCache(servers, "hosts");
-    await loadHost(serverName);
-    setServerPlaying(serverName);
+    await loadHost(server.name);
+    setServerPlaying(server);
   };
 
   const loadServers = async () => {
@@ -18,7 +19,8 @@ export default function useServers(serversGetted) {
     if (!existsDirCache) await initialCache();
     await setCache(servers, "hosts");
     const hostDefault = await hosts.getHostDefault();
-    setServerPlaying(hostDefault);
+    const server = servers.find((server) => server.id === hostDefault);
+    setServerPlaying(server);
   };
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function useServers(serversGetted) {
             ...server,
             activate: false,
           };
-        if (server.name === serverPlaying)
+        if (server.name === serverPlaying?.name)
           return {
             ...server,
             activate: true,
