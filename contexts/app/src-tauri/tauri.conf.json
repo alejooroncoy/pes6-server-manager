@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "PSM",
-    "version": "0.0.1"
+    "version": "0.0.2"
   },
   "tauri": {
     "allowlist": {
@@ -47,7 +47,7 @@
         "all": true,
         "scope": [
           "http://localhost:5000/**/*",
-          " https://psm.up.railway.app/**/*",
+          "https://psm.up.railway.app/**/*",
           "https://psm-server.onrender.com/**/*"
         ]
       },
