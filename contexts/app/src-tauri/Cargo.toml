@@ -1,10 +1,10 @@
 [package]
 name = "psm"
-version = "0.0.1"
-description = "A Tauri App"
+version = "0.0.2"
+description = "Pes6 server manager helps its users to be able to have control of the servers where they play. In this way, with a few simple clicks, play PES 6 on the server of your choice. 💻⚽"
 authors = ["alejooroncoy"]
-license = ""
-repository = ""
+license = "GNU AGPLv3"
+repository = "https://github.com/alejooroncoy/pes6-server-manager"
 edition = "2021"
 rust-version = "1.57"
 
