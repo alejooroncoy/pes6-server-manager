@@ -2,6 +2,7 @@ import { getLocationPes6Cache, setLocationPes6Cache } from "../config/cache";
 import { getIsWsl, isWindows } from "../utils/getOs";
 import { Command } from "@tauri-apps/api/shell";
 import * as path from "@tauri-apps/api/path";
+import { exists } from "@tauri-apps/api/fs";
 import paths from "../config/paths";
 import serial from "./serial";
 import logger from "./logger";
@@ -49,22 +50,8 @@ const locationPes6 = {
       );
       const existsPathPes6Default = await exists(pathPes6Default);
       if (existsPathPes6Default) return pathPes6Default;
-
-      const findLocationPes = new Promise(async (res, rej) => {
-        try {
-          const commandLocationPes = await this.getCommandLocationPes();
-          const command = new Command("powershell", [commandLocationPes], {
-            encoding: "utf-8",
-          });
-          const executed = await command.execute();
-          if (executed.stderr) res("");
-          else res(executed.stdout.trim().slice(0, -1));
-        } catch (err) {
-          rej(err);
-        }
-      });
       try {
-        const locationPes = await findLocationPes;
+        const locationPes = await this.autoDetectLocationPes();
         return locationPes;
       } catch (err) {
         logger.error("We couldn’t find your pes6.exe file path:(");
@@ -73,7 +60,7 @@ const locationPes6 = {
   },
   async getCommandStartPes6() {
     const isWsl = await getIsWsl();
-    return isWsl ? "cmd.exe /c start pes6.exe" : 'cmd.exe /c "start pes6.exe"';
+    return isWsl ? "cmd.exe /c start pes6.exe" : "Start-Process pes6.exe";
   },
 };
 
