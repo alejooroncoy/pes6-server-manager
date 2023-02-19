@@ -16,13 +16,13 @@ const Home = ({ fontFamily, servers }) => {
   return (
     <main className={`min-h-screen flex flex-wrap ${fontFamily.className}`}>
       <HomeHero />
-      <section className="flex-[70%] md:pl-6">
+      <section className="flex-[70%] md:px-6 flex gap-2 flex-wrap">
         <HomeServers servers={servers} />
         <HomeOpenPes6 />
+        <HomeSerial />
       </section>
       <aside className="flex-1 lg:pr-6 lg:px-0 px-6">
         <div className="py-4 flex flex-col gap-4 h-full justify-center items-center">
-          <HomeSerial />
           <HomeMessage />
         </div>
       </aside>

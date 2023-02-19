@@ -30,11 +30,9 @@ const HomeOpenPes6 = () => {
     await autoDetectLocationPes6();
   };
   return (
-    <section id="openPes6">
-      <div className="px-5 flex flex-col gap-2 py-4">
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
-          Open pes6{" "}
-        </h2>
+    <section id="openPes6" className="w-full md:w-2/3">
+      <div className="px-5 flex flex-col gap-4 py-4">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">Open pes6</h2>
         <p className="text-slate-900 text-md sm:text-lg">
           Locate your pes6.exe folder and you can play! 🎮⚽
         </p>
@@ -46,30 +44,31 @@ const HomeOpenPes6 = () => {
           >
             <AiFillFolder size={30} /> My ubication PES6
           </button>
-          {loading ? (
-            <>
-              <Loading type="spinner" size="lg" />{" "}
-              <span className="font-bold">Loading directory Pes 6 Path</span>
-            </>
-          ) : (
-            <h3 className="p-2 py-2 md:py-4 text-sm font-bold rounded bg-secondary">
-              {directoryPes6
-                ? `Path actual: ${directoryPes6}`
-                : "Path Pes 6 not found 😢"}
-            </h3>
-          )}
-          <div className="flex-full flex justify-between w-full flex-wrap gap-2">
-            <button
-              onClick={handleClickAutoDetected}
-              className="flex items-center gap-2 font-bold rounded bg-gradient-to-tr from-slate-900 to-primary text-white p-3 active:scale-95 transition-transform duration-200"
-            >
-              <BsSearch size={20} /> Autodetect PES folder
-            </button>
-            <div className="ml-auto flex gap-4 items-center">
-              {openLoading && <Loading type="gradient" />}
+          <button
+            onClick={handleClickAutoDetected}
+            className="flex items-center gap-2 font-extrabold rounded bg-gradient-to-tr from-slate-900 to-primary text-white p-3 active:scale-95 transition-transform duration-200"
+          >
+            <BsSearch size={20} /> Autodetect PES folder
+          </button>
+
+          <div className="flex-full flex justify-start items-center w-full flex-wrap gap-2">
+            {loading ? (
+              <>
+                <Loading type="spinner" size="lg" />{" "}
+                <span className="font-bold">Loading directory Pes 6 Path</span>
+              </>
+            ) : (
+              <h3 className="flex items-center py-4 px-2 text-sm font-bold rounded bg-secondary">
+                {directoryPes6
+                  ? `Path actual: ${directoryPes6}`
+                  : "Path Pes 6 not found 😢"}
+              </h3>
+            )}
+            <div className="flex gap-2 items-center">
+              {openLoading && <Loading className="pl-2" type="gradient" />}
               <button
                 onClick={handleClickOpen}
-                className=" p-2 py-4 font-bold bg-primary text-slate-100 rounded active:scale-95 transition-transform duration-200 w-full md:w-fit"
+                className="p-2 py-4 font-bold bg-primary text-slate-100 rounded active:scale-95 transition-transform duration-200 w-full md:w-fit"
               >
                 {openLoading ? "Opening pes 6 ✨" : "Play pes 6 ⚽✨"}
               </button>
