@@ -52,9 +52,9 @@ const psmServices = {
     const release = await github.getReleaseByTag(tag);
     return release;
   },
-  async getAsset(assets, platform = "windows_x86_64", updater = false) {
+  async getAsset(assets, platform = "windows", updater = false) {
     const schema = {};
-    if (platform === "windows_x86_64") {
+    if (platform === "windows") {
       const injectUrlAndSig = new Promise((res, rej) => {
         let index = 0;
         assets.forEach(async (asset) => {
@@ -88,9 +88,8 @@ const psmServices = {
     }
     return schema;
   },
-  async getPsmUltimateUpdater(tag, platform = "windows_x86_64") {
+  async getPsmUltimateUpdater(tag, platform = "windows") {
     const release = await this.getPsmUltimateRelease(tag);
-    // console.log(release);
     const schema = {
       url: "",
       version: release.tag_name,

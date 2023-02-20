@@ -54,7 +54,11 @@ export const uploadPsmUltimate = async (req, res) => {
  * @param {import('express').Response} res
  */
 export const getPsmUltimateUpdater = async (req, res) => {
-  const { version, platform } = req.query;
-  const updater = await psmServices.getPsmUltimateUpdater(version, platform);
+  const { version, platform, arch } = req.query;
+  const updater = await psmServices.getPsmUltimateUpdater(
+    version,
+    platform,
+    arch
+  );
   res.status(200).json(updater);
 };
