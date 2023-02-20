@@ -2,11 +2,10 @@ const { readFile, writeFile } = require("node:fs/promises");
 const path = require("node:path");
 
 const changeLogPath = path.resolve(__dirname, "./CHANGELOG.md");
-const versionPath = path.resolve(__dirname, "./version.txt");
 
 const main = async () => {
   const content = await readFile(changeLogPath, "utf-8");
-  const version = await readFile(versionPath, "utf-8");
+  const { VERSION: version } = process.env;
 
   const contentVersion = content
     .split("##")
