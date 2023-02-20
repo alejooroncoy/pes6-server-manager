@@ -12,3 +12,14 @@
       - PS2 server
   * Open pes 6 ⚽🎮
   * Change serial 📃✨
+
+## 0.0.2
+
+<h4>Features ✨</h4>
+
+  * Add register page when choose a server 📃🌟
+  * Change layout ✨🌠
+
+<h4>Bugs 🐞</h4>
+
+  * Fix bug in section of open pes 6 ⚽🎮
