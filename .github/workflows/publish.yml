@@ -26,6 +26,8 @@ jobs:
       - name: Extract changelog
         run: |
           node ./extract.js
+        env: 
+          VERSION: ${{ github.ref_name }}
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
