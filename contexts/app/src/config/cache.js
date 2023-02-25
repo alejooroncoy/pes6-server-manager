@@ -23,9 +23,15 @@ export const getPathLocationPes6Cache = async () => {
   const pathCache = await getPathCache();
   return path.resolve(pathCache, `./location.txt`);
 };
+
 export const getPathSerialPes6Cache = async () => {
   const pathCache = await getPathCache();
   return path.resolve(pathCache, `./serial.txt`);
+};
+
+export const getPathSerialsPes6Cache = async () => {
+  const pathCache = await getPathCache();
+  return path.resolve(pathCache, `./serials.txt`);
 };
 
 export const getPathCacheHost = async (hostName, createAction) => {
@@ -131,6 +137,19 @@ export const getLocationPes6Cache = async () => {
   let location = await readTextFile(pathLocationPes6Cache);
   if (location.at(-1) === path.sep) location.slice(0, -1);
   return location;
+};
+
+export const getSerialsPes6Cache = async () => {
+  const pathSerialsPes6Cache = await getPathSerialsPes6Cache();
+  const isPathSerialsPes6Cache = await exists(pathSerialsPes6Cache);
+  if (!isPathSerialsPes6Cache) return null;
+  const serials = await readTextFile(pathSerialsPes6Cache);
+  return serials;
+};
+
+export const setSerialsPes6Cache = async (serials) => {
+  const pathSerialsPes6Cache = await getPathSerialsPes6Cache();
+  await writeTextFile(pathSerialsPes6Cache, serials);
 };
 
 export const setSerialPes6Cache = async (serial) => {
