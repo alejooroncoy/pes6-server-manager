@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { getSerialPes6Cache, setSerialPes6Cache } from "../config/cache";
 import serialActions from "../libs/serial";
 
@@ -7,6 +7,13 @@ export default function useSerial() {
     serialActions.subscribe.bind(serialActions),
     serialActions.getSnapshot.bind(serialActions)
   );
+  const [seriales, setSeriales] = useState([]);
+
+  const getSeriales = () => {
+    const serialesGetted = localStorage.getItem("seriales")?.split(",") || [];
+    setSeriales(serialesGetted);
+  };
+
   const setSerial = async (newSerial) => {
     await serialActions.setSerial(newSerial);
   };
@@ -27,6 +34,16 @@ export default function useSerial() {
 
   useEffect(() => {
     getSerial();
+    getSeriales();
   }, []);
-  return [serial, setSerial, restoreSerial];
+  useEffect(() => {
+    if (serial.trim()) {
+      const serialesGetted = [
+        ...new Set([...seriales, serial].filter((srl) => !!srl)),
+      ];
+      localStorage.setItem("seriales", serialesGetted.join(","));
+      getSeriales();
+    }
+  }, [serial]);
+  return [serial, setSerial, restoreSerial, seriales];
 }
