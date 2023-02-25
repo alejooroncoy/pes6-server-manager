@@ -9,8 +9,8 @@ import logger from "../libs/logger.js";
 export const getHostFromUrl = (
   host,
   { refetching = false, config: configCache } = {}
-) =>
-  new Promise(async (res, rej) => {
+) => {
+  const cb = async (res, rej) => {
     try {
       config.updateBaseUrl();
       const urlHosts = new URL(config.urlServers);
@@ -24,6 +24,11 @@ export const getHostFromUrl = (
       const response = await client.get(urlHosts, {
         responseType: ResponseType.Text,
       });
+      if (!response.ok) {
+        config.updateBaseUrl();
+        await cb(res, rej);
+        return;
+      }
       const root = await paths.getRoot();
       const pathDestHosts = await paths.getPathDestHosts();
       const destFileName = await path.resolve(root, pathDestHosts);
@@ -44,7 +49,9 @@ export const getHostFromUrl = (
     } catch (err) {
       rej(err);
     }
-  });
+  };
+  return new Promise(cb);
+};
 
 export const getHostFromCache = (pathCacheHost, host) =>
   new Promise(async (res, rej) => {
