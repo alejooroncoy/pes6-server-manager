@@ -1,5 +1,26 @@
 # Changelog 📃
 
+## 0.0.3
+
+<h4>Features ✨</h4>
+
+  * Add serials used 📃✨
+
+<h4>Bugs 🐞</h4>
+
+  * Fix bug in section of servers [Add fallback] ⚽🎮
+  
+## 0.0.2
+
+<h4>Features ✨</h4>
+
+  * Add register page when choose a server 📃🌟
+  * Change layout ✨🌠
+
+<h4>Bugs 🐞</h4>
+
+  * Fix bug in section of open pes 6 ⚽🎮
+
 ## 0.0.1
 
 <h4>Features ✨</h4>
@@ -13,13 +34,3 @@
   * Open pes 6 ⚽🎮
   * Change serial 📃✨
 
-## 0.0.2
-
-<h4>Features ✨</h4>
-
-  * Add register page when choose a server 📃🌟
-  * Change layout ✨🌠
-
-<h4>Bugs 🐞</h4>
-
-  * Fix bug in section of open pes 6 ⚽🎮
