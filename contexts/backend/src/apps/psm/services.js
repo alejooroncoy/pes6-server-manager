@@ -90,11 +90,12 @@ const psmServices = {
   },
   async getPsmUltimateUpdater(tag, platform = "windows") {
     const release = await this.getPsmUltimateRelease(tag);
+    if (release.message === "Not Found") return null;
     const schema = {
       url: "",
       version: release.tag_name,
       notes: release.body,
-      pub_date: release.published_at,
+      pub_date: new Date(release.published_at).toISOString(),
       signature: "",
     };
     const { url, signature } = await this.getAsset(

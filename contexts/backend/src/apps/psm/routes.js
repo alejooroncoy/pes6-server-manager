@@ -1,4 +1,5 @@
 import { Router } from "express";
+import notContentHandler from "../../middlewares/notContent.handler.js";
 import {
   getPsmBin,
   getPsmUltimate,
@@ -14,6 +15,7 @@ psm
   .post("/bin", uploadPsmBin)
   .get("/ultimate", getPsmUltimate)
   .get("/ultimate/updater", getPsmUltimateUpdater)
+  .use("/ultimate/updater", notContentHandler)
   .post("/ultimate", uploadPsmUltimate);
 
 export default psm;
