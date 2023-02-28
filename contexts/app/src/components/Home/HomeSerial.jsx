@@ -60,11 +60,10 @@ const HomeSerial = () => {
             <Dropdown.Menu
               onAction={handleSelectSerial}
               aria-label="Serials used"
-              items={seriales}
             >
-              {(serialGetted) => (
+              {seriales.map((serialGetted) => (
                 <Dropdown.Item key={serialGetted}>{serialGetted}</Dropdown.Item>
-              )}
+              ))}
             </Dropdown.Menu>
           </Dropdown>
           <button className="py-2 active:scale-95 transition-transform duration-200 font-bold rounded-md px-2 bg-primary text-white flex-full sm:flex-1">
