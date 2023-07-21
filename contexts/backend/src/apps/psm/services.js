@@ -1,3 +1,4 @@
+import { compare, valid } from "semver";
 import github from "../../libs/github.js";
 import getSupabase from "../../libs/supabase.js";
 import getLinkFromMediafire from "../../utils/getLinkFromMediafire.js";
@@ -89,23 +90,27 @@ const psmServices = {
     return schema;
   },
   async getPsmUltimateUpdater(tag, platform = "windows") {
-    const release = await this.getPsmUltimateRelease(tag);
-    if (release.message === "Not Found") return null;
-    const schema = {
-      url: "",
-      version: release.tag_name,
-      notes: release.body,
-      pub_date: new Date(release.published_at).toISOString(),
-      signature: "",
-    };
-    const { url, signature } = await this.getAsset(
-      release.assets,
-      platform,
-      true
-    );
-    schema.url = url;
-    schema.signature = signature;
-    return schema;
+    if (!valid(tag)) return null;
+    const release = await this.getPsmUltimateRelease("latest");
+
+    if (compare(release.tag_name, tag) === 1) {
+      const schema = {
+        url: "",
+        version: release.tag_name,
+        notes: release.body,
+        pub_date: new Date(release.published_at).toISOString(),
+        signature: "",
+      };
+      const { url, signature } = await this.getAsset(
+        release.assets,
+        platform,
+        true
+      );
+      schema.url = url;
+      schema.signature = signature;
+      return schema;
+    }
+    return null;
   },
 };
 
