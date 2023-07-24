@@ -5,21 +5,14 @@ import psmServices from "./services.js";
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
-export const getPsmBin = async (req, res) => {
+export const getPsmLite = async (req, res, next) => {
   const { version } = req.query;
-  const url = await psmServices.getPsmFileBin(version);
-  res.redirect(url);
-};
-
-/**
- *
- * @param {import('express').Request} req
- * @param {import('express').Response} res
- */
-export const uploadPsmBin = async (req, res) => {
-  const { version } = req.query;
-  const binUploaded = await psmServices.uploadPsmFileBin(req.body, version);
-  res.status(201).send(binUploaded);
+  try {
+    const data = await psmServices.getPsmFileLite(version);
+    res.redirect(data.result.link);
+  } catch (err) {
+    next(err);
+  }
 };
 
 /**
@@ -53,7 +46,7 @@ export const uploadPsmUltimate = async (req, res) => {
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  */
-export const getPsmUltimateUpdater = async (req, res) => {
+export const getPsmUltimateUpdater = async (req, res, next) => {
   const { version, platform, arch } = req.query;
   const updater = await psmServices.getPsmUltimateUpdater(
     version,
@@ -61,8 +54,5 @@ export const getPsmUltimateUpdater = async (req, res) => {
     arch
   );
   if (updater) res.status(200).json(updater);
-  else {
-    res.status(204);
-    res.end();
-  }
+  else next();
 };

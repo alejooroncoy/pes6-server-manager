@@ -2,27 +2,17 @@ import { compare, valid } from "semver";
 import github from "../../libs/github.js";
 import getSupabase from "../../libs/supabase.js";
 import getLinkFromMediafire from "../../utils/getLinkFromMediafire.js";
+import dropbox from "../../libs/dropbox.js";
 
 const psmServices = {
   supabase: getSupabase(),
-  async getPsmFileBin(version) {
-    const { supabase } = this;
-    const urlDownloaded = await supabase.storage
-      .from("url")
-      .download(`urlMediafire-${version}.txt`);
-    const link = await urlDownloaded.data.text();
-    return link;
-  },
-  async uploadPsmFileBin(body, version) {
-    const { supabase } = this;
-    const { url } = body;
-    const link = await getLinkFromMediafire(url);
-    const data = await supabase.storage
-      .from("url")
-      .upload(`urlMediafire-${version}.txt`, link, {
-        upsert: true,
-      });
-
+  async getPsmFileLite(version) {
+    let pathFile;
+    if (version === "latest") pathFile = await dropbox.getLatestFile();
+    if (pathFile) pathFile = `${pathFile}/psm.exe`;
+    const data = await dropbox.getLinkFile({
+      pathFile: pathFile || `/bin/${version}/psm.exe`,
+    });
     return data;
   },
   async getPsmFileUltimate(version) {
