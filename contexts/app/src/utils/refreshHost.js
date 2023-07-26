@@ -1,5 +1,8 @@
-import { setConfigHost } from "../config/cache";
+import { getHostFromUrl } from "./getHost";
 
 export default async function refreshHost(hostname) {
-  await setConfigHost(hostname, true);
+  await getHostFromUrl(hostname, {
+    refetching: true,
+    forceUpdate: true,
+  });
 }
