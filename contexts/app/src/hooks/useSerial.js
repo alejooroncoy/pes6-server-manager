@@ -1,10 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
-import {
-  getSerialPes6Cache,
-  getSerialsPes6Cache,
-  setSerialPes6Cache,
-  setSerialsPes6Cache,
-} from "../config/cache";
+import { getSerialPes6Cache, setSerialPes6Cache } from "../config/cache";
 import serialActions from "../libs/serial";
 
 export default function useSerial() {

@@ -88,10 +88,7 @@ export const setConfigHost = async (hostName) => {
   );
   const configCache = configHostCache.at(configCacheIndex);
   if (new Date(configCache.hostTimeExpire) < new Date()) {
-    await getHostFromUrl(hostName, {
-      refetching: true,
-      config: configCache,
-    });
+    await getHostFromUrl(hostName);
   }
   configCache.activate = true;
   Reflect.set(configHostCache, configCacheIndex, configCache);

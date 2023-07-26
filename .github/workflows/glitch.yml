@@ -1,0 +1,18 @@
+name: Glitch deploy
+on:
+  push:
+    branches:
+      - develop
+      
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: kanadgupta/glitch-sync@main
+        with:
+          auth-token: '${{ secrets.AUTH_TOKEN_GLITCH }}'
+          project-id: '${{ secrets.PROJECT_ID_GLITCH }}'
+          path: './contexts/backend'
+          repo: 'alejooroncoy/pes6-server-manager'

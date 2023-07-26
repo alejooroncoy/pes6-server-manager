@@ -19,19 +19,26 @@
     "@supabase/supabase-js": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "dropbox": "^10.34.0",
     "express": "^4.18.2",
     "fetch-blob": "^3.2.0",
     "node-cache": "^5.1.2",
     "node-fetch": "^3.3.0",
     "node-html-parser": "^6.1.4",
-    "rcedit": "^3.0.1"
+    "rcedit": "^3.0.1",
+    "semver": "^7.5.4"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.3.3",
     "eslint": "^8.31.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-hexagonal-architecture": "^1.0.3",
     "eslint-plugin-import": "^2.26.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^3.0.1",
+    "supabase": "^1.77.9"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }

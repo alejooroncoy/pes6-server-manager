@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
-import prompts from "prompts";
 import ResEdit from "resedit";
+import { Dropbox } from "dropbox";
 import * as esbuild from "esbuild";
 import exe from "@angablue/exe";
 import path from "node:path";
@@ -8,34 +8,26 @@ import fs from "node:fs";
 import packageJson from "../package.json" assert { type: "json" };
 import { config as configDotenv } from "dotenv";
 
-configDotenv();
+try {
+  configDotenv();
 
-const { version } = packageJson;
+  const { version } = packageJson;
 
-async function fetchWithTimeout(resource, options = {}) {
-  const { timeout = 60000 } = options;
-  
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  const response = await fetch(resource, {
-    ...options,
-    signal: controller.signal  
-  });
-  clearTimeout(id);
-  return response;
-}
+  const pathPsmJs = path.resolve("./dist/psm.js");
+  const output = path.resolve("./dist/psm.exe");
 
-const pathPsmJs = path.resolve("./dist/psm.js");
-const output = path.resolve("./dist/psm.exe");
+  const {
+    BASES_URL: basesUrl,
+    DROPBOX_REFRESH_TOKEN: dropboxRefreshToken,
+    DROPBOX_CLIENT_ID: dropboxClientId,
+    DROPBOX_CLIENT_SECRET: dropboxClientSecret,
+  } = process.env;
 
-const basesUrl = process.env.BASES_URL;
-const basesUrlList = basesUrl.split(',');
-let index = 0;
+  const basesUrlList = basesUrl.split(",");
+  let index = 0;
 
-let baseUrl = null;
+  let baseUrl = basesUrlList.at(index);
 
-do {
-  baseUrl = basesUrlList.at(index);
   await esbuild.build({
     entryPoints: ["./src/cli.js"],
     outfile: pathPsmJs,
@@ -46,7 +38,9 @@ do {
       "process.env.BASE_URL": `"${baseUrl}"`,
     },
   });
-  
+
+  console.log("Making psm.exe 📦");
+
   await exe({
     entry: pathPsmJs,
     out: output,
@@ -62,16 +56,16 @@ do {
     },
   });
   let data = fs.readFileSync(output);
-  
+
   const exeContent = ResEdit.NtExecutable.from(data);
   const res = ResEdit.NtExecutableResource.from(exeContent);
-  
-  const entrie = res.entries.find(({ type }) => type === 24);
-  
+
+  const entries = res.entries.find(({ type }) => type === 24);
+
   res.replaceResourceEntry({
-    ...entrie,
+    ...entries,
     bin: Buffer.from(
-      Buffer.from(entrie.bin)
+      Buffer.from(entries.bin)
         .toString("utf-8")
         .replace(
           '<requestedPrivileges><requestedExecutionLevel level="asInvoker" uiAccess="false">',
@@ -79,41 +73,29 @@ do {
         )
     ),
   });
-  
+
   res.outputResource(exeContent);
   let newBinary = exeContent.generate();
-  fs.writeFileSync(output, Buffer.from(newBinary));
-  
-  const urlMediafire = await prompts({
-    type: "text",
-    name: "value",
-    message: "Write url mediafire of the file",
-  });
-  
-  const headersFetch = new Headers();
-  
-  headersFetch.append("Content-Type", "application/json; charset=utf-8");
-  
-  if (urlMediafire.value || process.env.URL_MEDIAFIRE) {
-    try {
-      const response = await fetchWithTimeout(`${baseUrl}/psm/bin?version=${version}`, {
-        method: "POST",
-        body: JSON.stringify({
-          url: process.env.URL_MEDIAFIRE || urlMediafire.value,
-        }),
-        headers: headersFetch,
-        
-      });
-      
-      const data = await response.json();
-      console.log(data);
-    } catch(err) {
-      index++;
-      baseUrl = basesUrlList.at(index);
-    }
-  }else {
-    console.log("Missing url mediafire");
-  }
-  process.exit(0);
 
-} while(baseUrl || !success);
+  const dropbox = new Dropbox({
+    refreshToken: dropboxRefreshToken,
+    clientId: dropboxClientId,
+    clientSecret: dropboxClientSecret,
+    fetch,
+  });
+
+  console.log("Upload file ☁");
+  await dropbox.filesUpload({
+    mode: {
+      ".tag": "overwrite",
+    },
+    path: `/bin/${version}/psm.exe`,
+    contents: Buffer.from(newBinary),
+    autorename: false,
+  });
+
+  console.log(`Publish success 🌟`);
+} catch (err) {
+  console.error("There is a error");
+  console.log(err.message);
+}

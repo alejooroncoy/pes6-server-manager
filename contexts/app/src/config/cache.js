@@ -96,12 +96,12 @@ export const saveCacheHost = async (hostName, hostContent) => {
   await writeTextFile(pathCacheHost, hostContent);
 };
 
-export const setConfigHost = async (hostName) => {
+export const setConfigHost = async (hostName, force = false) => {
   const configCacheIndex = configHostCache.findIndex(
     ({ name }) => name === hostName.toLowerCase()
   );
   const configCache = configHostCache.at(configCacheIndex);
-  if (new Date(configCache.hostTimeExpire) < new Date()) {
+  if (new Date(configCache.hostTimeExpire) < new Date() || force) {
     await getHostFromUrl(hostName, {
       refetching: true,
       config: configCache,

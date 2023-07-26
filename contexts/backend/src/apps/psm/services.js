@@ -1,27 +1,18 @@
+import { compare, valid } from "semver";
 import github from "../../libs/github.js";
 import getSupabase from "../../libs/supabase.js";
 import getLinkFromMediafire from "../../utils/getLinkFromMediafire.js";
+import dropbox from "../../libs/dropbox.js";
 
 const psmServices = {
   supabase: getSupabase(),
-  async getPsmFileBin(version) {
-    const { supabase } = this;
-    const urlDownloaded = await supabase.storage
-      .from("url")
-      .download(`urlMediafire-${version}.txt`);
-    const link = await urlDownloaded.data.text();
-    return link;
-  },
-  async uploadPsmFileBin(body, version) {
-    const { supabase } = this;
-    const { url } = body;
-    const link = await getLinkFromMediafire(url);
-    const data = await supabase.storage
-      .from("url")
-      .upload(`urlMediafire-${version}.txt`, link, {
-        upsert: true,
-      });
-
+  async getPsmFileLite(version) {
+    let pathFile;
+    if (version === "latest") pathFile = await dropbox.getLatestFile();
+    if (pathFile) pathFile = `${pathFile}/psm.exe`;
+    const data = await dropbox.getLinkFile({
+      pathFile: pathFile || `/bin/${version}/psm.exe`,
+    });
     return data;
   },
   async getPsmFileUltimate(version) {
@@ -89,22 +80,26 @@ const psmServices = {
     return schema;
   },
   async getPsmUltimateUpdater(tag, platform = "windows") {
-    const release = await this.getPsmUltimateRelease(tag);
-    const schema = {
-      url: "",
-      version: release.tag_name,
-      notes: release.body,
-      pub_date: release.published_at,
-      signature: "",
-    };
-    const { url, signature } = await this.getAsset(
-      release.assets,
-      platform,
-      true
-    );
-    schema.url = url;
-    schema.signature = signature;
-    return schema;
+    if (!valid(tag)) return null;
+    const release = await this.getPsmUltimateRelease("latest");
+    if (compare(release.tag_name, tag) === 1) {
+      const schema = {
+        url: "",
+        version: release.tag_name,
+        notes: release.body,
+        pub_date: new Date(release.published_at).toISOString(),
+        signature: "",
+      };
+      const { url, signature } = await this.getAsset(
+        release.assets,
+        platform,
+        true
+      );
+      schema.url = url;
+      schema.signature = signature;
+      return schema;
+    }
+    return null;
   },
 };
 
