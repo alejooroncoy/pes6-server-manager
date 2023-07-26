@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { configHostCache, setCache, existsCache } from "../config/cache";
 import loadHost from "../utils/loadHost";
 import hosts from "../libs/hosts";
+import refreshHost from "../utils/refreshHost";
 
 export default function useServers(serversGetted) {
   const [servers, setServers] = useState(serversGetted);
@@ -21,6 +22,11 @@ export default function useServers(serversGetted) {
     const hostDefault = await hosts.getHostDefault();
     const server = servers.find((server) => server.id === hostDefault);
     setServerPlaying(server);
+  };
+
+  const refreshHostServer = async (id) => {
+    const server = servers.find((server) => server.id === id);
+    await refreshHost(server.name);
   };
 
   useEffect(() => {
@@ -50,6 +56,7 @@ export default function useServers(serversGetted) {
       chooseServer,
       serverPlaying,
       setServers,
+      refreshHost: refreshHostServer,
     },
   ];
 }

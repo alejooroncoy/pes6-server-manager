@@ -2,16 +2,20 @@
 
 import { ToastContainer } from "react-toastify";
 import { FaWpforms } from "react-icons/fa";
+import { FiRefreshCw } from "react-icons/fi";
 import useServers from "../../hooks/useServers";
 import { IoLogoGameControllerB } from "react-icons/io";
 import "react-toastify/dist/ReactToastify.css";
 
 const HomeServersList = ({ servers: serversGetted }) => {
-  const [servers, { chooseServer, serverPlaying }] = useServers(serversGetted);
+  const [servers, { chooseServer, serverPlaying, refreshHost }] =
+    useServers(serversGetted);
   const handleClickChooseServer = (id) => {
     chooseServer(id);
   };
-
+  const handleClickRefresh = () => {
+    refreshHost(serverPlaying.id);
+  };
   return (
     <>
       <ul className="w-full p-0 m-0 flex gap-8 flex-col sm:flex-row sm:flex-wrap justify-center items-center md:py-2">
@@ -63,6 +67,13 @@ const HomeServersList = ({ servers: serversGetted }) => {
           Register page
           <FaWpforms size={25} />
         </a>
+        <button
+          onClick={handleClickRefresh}
+          className="ml-auto mr-4 bg-gradient-to-tr from-blue-900 to-slate-800 text-slate-50 p-2 active:scale-95 duration-250 transition-transform rounded-md font-bold text-lg flex gap-2 items-center"
+        >
+          Refresh hosts
+          <FiRefreshCw size={20} />
+        </button>
       </article>
       <ToastContainer />
     </>

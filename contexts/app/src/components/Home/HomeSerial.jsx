@@ -51,7 +51,7 @@ const HomeSerial = () => {
           <Dropdown type="menu">
             <Dropdown.Button
               className="flex-full"
-              fit
+              fit="true"
               css={{
                 bgColor: "#247291",
               }}

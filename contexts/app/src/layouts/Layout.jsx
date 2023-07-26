@@ -1,5 +1,6 @@
 import Footer from "../components/sections/Footer";
 import Header from "../components/sections/Header";
+import Updater from "../components/shared/Updater";
 
 const Layout = ({ children, fontFamily }) => {
   return (
@@ -7,6 +8,7 @@ const Layout = ({ children, fontFamily }) => {
       <Header fontFamily={fontFamily} />
       {children}
       <Footer fontFamily={fontFamily} />
+      <Updater />
     </>
   );
 };
