@@ -8,7 +8,7 @@ import logger from "../libs/logger.js";
 
 export const getHostFromUrl = (
   host,
-  { refetching = false, config: configCache } = {}
+  { refetching = false, config: configCache, forceUpdate } = {}
 ) => {
   const cb = async (res, rej) => {
     try {
@@ -38,13 +38,13 @@ export const getHostFromUrl = (
       await saveCacheHost(host, data);
       logger.log(`Loaded hosts ✨📋`);
       logger.log(`Saved host in cache ✨📁`);
-      if (refetching) {
+      if (refetching && !forceUpdate) {
         configCache.hostTimeExpire = new Date(
           new Date().getTime() + TIME_EXPIRED
         );
         return res();
       }
-      await setConfigHost(host);
+      await setConfigHost(host, forceUpdate);
       res();
     } catch (err) {
       rej(err);
