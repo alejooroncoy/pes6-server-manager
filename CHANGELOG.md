@@ -1,5 +1,11 @@
 # Changelog 📃
 
+## 0.0.4
+
+<h4>Features ✨</h4>
+
+  * Add refresh host 📦🌌
+
 ## 0.0.3
 
 <h4>Features ✨</h4>
