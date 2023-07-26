@@ -17,6 +17,7 @@
     "chalk": "^5.1.2",
     "chalk-template": "^0.4.0",
     "commander": "^9.4.1",
+    "dropbox": "^10.34.0",
     "internet-available": "^1.0.0",
     "is-wsl": "^2.2.0",
     "node-fetch": "^3.3.0",
