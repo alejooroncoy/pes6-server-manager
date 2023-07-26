@@ -1,5 +1,11 @@
 # Changelog 📃
 
+## 0.0.5
+
+<h4>Bugs 🐞</h4>
+
+  * Update error in refresh host 📃🌟
+
 ## 0.0.4
 
 <h4>Features ✨</h4>
