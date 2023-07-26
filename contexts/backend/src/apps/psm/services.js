@@ -82,7 +82,6 @@ const psmServices = {
   async getPsmUltimateUpdater(tag, platform = "windows") {
     if (!valid(tag)) return null;
     const release = await this.getPsmUltimateRelease("latest");
-
     if (compare(release.tag_name, tag) === 1) {
       const schema = {
         url: "",
