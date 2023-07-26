@@ -9,8 +9,9 @@ export default function useSerial() {
   );
   const [seriales, setSeriales] = useState([]);
 
-  const getSeriales = () => {
-    const serialesGetted = localStorage.getItem("seriales")?.split(",") || [];
+  const getSeriales = async () => {
+    const serialsPes6Cache = await getSerialsPes6Cache();
+    const serialesGetted = serialsPes6Cache?.split(",") || [];
     setSeriales(serialesGetted);
   };
 
@@ -32,18 +33,22 @@ export default function useSerial() {
     await serialActions.setSerial(serialPes6Cached);
   };
 
-  useEffect(() => {
-    getSerial();
-    getSeriales();
-  }, []);
-  useEffect(() => {
+  const setSerialsFromCache = async () => {
     if (serial.trim()) {
       const serialesGetted = [
         ...new Set([...seriales, serial].filter((srl) => !!srl)),
       ];
-      localStorage.setItem("seriales", serialesGetted.join(","));
+      await setSerialsPes6Cache(serialesGetted.join(","));
       getSeriales();
     }
+  };
+  useEffect(() => {
+    getSerial();
+    getSeriales();
+  }, []);
+
+  useEffect(() => {
+    setSerialsFromCache();
   }, [serial]);
   return [serial, setSerial, restoreSerial, seriales];
 }
