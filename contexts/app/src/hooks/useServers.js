@@ -26,7 +26,7 @@ export default function useServers(serversGetted) {
 
   const refreshHostServer = async (id) => {
     const server = servers.find((server) => server.id === id);
-    await refreshHost(server.name);
+    await refreshHost(server);
   };
 
   useEffect(() => {
@@ -36,20 +36,22 @@ export default function useServers(serversGetted) {
   useEffect(() => {
     setServers(
       servers.map((server) => {
-        if (server.activate)
-          return {
-            ...server,
-            activate: false,
-          };
         if (server.name === serverPlaying?.name)
           return {
             ...server,
             activate: true,
           };
+        if (server.activate)
+          return {
+            ...server,
+            activate: false,
+          };
+
         return server;
       })
     );
   }, [serverPlaying]);
+
   return [
     servers,
     {

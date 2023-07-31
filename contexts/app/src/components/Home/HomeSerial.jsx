@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { Dropdown } from "@nextui-org/react";
 import useSerial from "../../hooks/useSerial";
@@ -18,13 +20,12 @@ const HomeSerial = () => {
     await restoreSerial();
     logger.log("Restored serial 🌟");
   };
-  const handleSelectSerial = (newSerial) => {
-    inputRef.current.value = newSerial;
-  };
-
   useEffect(() => {
     inputRef.current.value = serial;
   }, [serial]);
+  const handleSelectSerial = (newSerial) => {
+    inputRef.current.value = newSerial;
+  };
 
   return (
     <section className="flex-1">
@@ -60,9 +61,11 @@ const HomeSerial = () => {
             <Dropdown.Menu
               onAction={handleSelectSerial}
               aria-label="Serials used"
-              items={seriales}
+              items={seriales.map((serial) => ({
+                serial,
+              }))}
             >
-              {(serialGetted) => (
+              {({ serial: serialGetted }) => (
                 <Dropdown.Item key={serialGetted}>{serialGetted}</Dropdown.Item>
               )}
             </Dropdown.Menu>

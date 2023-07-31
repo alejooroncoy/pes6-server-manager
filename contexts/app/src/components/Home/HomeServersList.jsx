@@ -2,51 +2,36 @@
 
 import { ToastContainer } from "react-toastify";
 import { FaWpforms } from "react-icons/fa";
-import { FiRefreshCw } from "react-icons/fi";
 import useServers from "../../hooks/useServers";
 import { IoLogoGameControllerB } from "react-icons/io";
 import "react-toastify/dist/ReactToastify.css";
+import HomeServer from "./HomeServer";
 
 const HomeServersList = ({ servers: serversGetted }) => {
   const [servers, { chooseServer, serverPlaying, refreshHost }] =
     useServers(serversGetted);
-  const handleClickChooseServer = (id) => {
-    chooseServer(id);
-  };
-  const handleClickRefresh = () => {
-    refreshHost(serverPlaying.id);
-  };
+
   return (
     <>
-      <ul className="w-full p-0 m-0 flex gap-8 flex-col sm:flex-row sm:flex-wrap justify-center items-center md:py-2">
+      <ul className="w-full h-full m-0 flex flex-row items-center py-12 px-4 sm:pr-12 md:pr-0 overflow-x-auto overflow-y-hidden gap-8">
         {!servers.length ? (
-          <p className="text-xl font-bold py-4">
+          <li className="text-xl font-bold py-4">
             We’re having trouble getting the servers, we recommend coming back
             later, or you can report it. ⚽👷‍♂️
-          </p>
+          </li>
         ) : (
           servers
             .filter(({ status }) => status === "working")
             .map(({ img, name, id, activate }) => (
-              <li key={id}>
-                <img
-                  onClick={() => handleClickChooseServer(id)}
-                  className={[
-                    "transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105 cursor-pointer",
-                    name === "brasil_server"
-                      ? "p-2 min-[160px]:p-4 rounded bg bg-slate-900"
-                      : "",
-                    name === "ps2" || name === "indie" ? "w-32" : "w-60",
-                    activate ? "grayscale-0" : "grayscale",
-                  ]
-                    .filter((className) => !!className.trim())
-                    .join(" ")}
-                  alt={`${name.replace("_", " ")} logo`}
-                  src={img}
-                  width={200}
-                  height={200}
-                />
-              </li>
+              <HomeServer
+                key={id}
+                img={img}
+                name={name}
+                id={id}
+                activate={activate}
+                refreshHost={refreshHost}
+                chooseServer={chooseServer}
+              />
             ))
         )}
       </ul>
@@ -67,13 +52,6 @@ const HomeServersList = ({ servers: serversGetted }) => {
           Register page
           <FaWpforms size={25} />
         </a>
-        <button
-          onClick={handleClickRefresh}
-          className="ml-auto mr-4 bg-gradient-to-tr from-blue-900 to-slate-800 text-slate-50 p-2 active:scale-95 duration-250 transition-transform rounded-md font-bold text-lg flex gap-2 items-center"
-        >
-          Refresh hosts
-          <FiRefreshCw size={20} />
-        </button>
       </article>
       <ToastContainer />
     </>

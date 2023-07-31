@@ -6,7 +6,7 @@ const HomeServersList = dynamic(() => import("./HomeServersList"), {
 
 const HomeServers = ({ servers }) => {
   return (
-    <section id="servers" className="py-5 w-full">
+    <section id="servers" className="py-5 w-full overflow-hidden max-w-[100vw]">
       <div className="px-5 flex flex-col gap-2">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">
           Servers availables:

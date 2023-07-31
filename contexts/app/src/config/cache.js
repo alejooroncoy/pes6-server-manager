@@ -96,7 +96,10 @@ export const saveCacheHost = async (hostName, hostContent) => {
   await writeTextFile(pathCacheHost, hostContent);
 };
 
-export const setConfigHost = async (hostName, force = false) => {
+export const setConfigHost = async (
+  hostName,
+  { force = false, pushHosts = true } = {}
+) => {
   const configCacheIndex = configHostCache.findIndex(
     ({ name }) => name === hostName.toLowerCase()
   );
@@ -105,6 +108,7 @@ export const setConfigHost = async (hostName, force = false) => {
     await getHostFromUrl(hostName, {
       refetching: true,
       config: configCache,
+      pushHosts: pushHosts,
     });
   }
   configCache.activate = true;
