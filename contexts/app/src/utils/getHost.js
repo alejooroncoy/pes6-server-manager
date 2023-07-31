@@ -8,18 +8,21 @@ import logger from "../libs/logger.js";
 
 export const getHostFromUrl = (
   host,
-  { refetching = false, config: configCache, forceUpdate } = {}
+  {
+    refetching = false,
+    config: configCache,
+    forceUpdate,
+    pushHosts = true,
+  } = {}
 ) => {
   const cb = async (res, rej) => {
     try {
       config.updateBaseUrl();
       const urlHosts = new URL(config.urlServers);
       urlHosts.pathname += `/${host.toLowerCase()}/file`;
-      if (refetching) {
-        logger.log(`Refetching the hosts from ${urlHosts} ⌛📋`);
-      } else {
-        logger.log(`Loading hosts from ${urlHosts} ⌛📋`);
-      }
+      if (refetching) logger.log(`Refetching the hosts from ${urlHosts} ⌛📋`);
+      else logger.log(`Loading hosts from ${urlHosts} ⌛📋`);
+
       const client = await getClient();
       const response = await client.get(urlHosts, {
         responseType: ResponseType.Text,
@@ -29,12 +32,14 @@ export const getHostFromUrl = (
         await cb(res, rej);
         return;
       }
-      const root = await paths.getRoot();
-      const pathDestHosts = await paths.getPathDestHosts();
-      const destFileName = await path.resolve(root, pathDestHosts);
       logger.log(`Saving host in cache ⌛📁`);
       const { data } = response;
-      await writeTextFile(destFileName, data);
+      if (pushHosts) {
+        const root = await paths.getRoot();
+        const pathDestHosts = await paths.getPathDestHosts();
+        const destFileName = await path.resolve(root, pathDestHosts);
+        await writeTextFile(destFileName, data);
+      }
       await saveCacheHost(host, data);
       logger.log(`Loaded hosts ✨📋`);
       logger.log(`Saved host in cache ✨📁`);

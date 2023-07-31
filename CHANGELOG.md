@@ -1,5 +1,15 @@
 # Changelog 📃
 
+## 0.0.6
+
+<h4>Features ✨</h4>
+
+  * Change the UI of the servers section 🆕
+
+<h4>Bugs 🐞</h4>
+
+  * Fix error in change hosts 📃🌟
+
 ## 0.0.5
 
 <h4>Bugs 🐞</h4>

@@ -14,7 +14,9 @@ const HomeSerial = dynamic(() => import("../components/Home/HomeSerial"), {
 
 const Home = ({ fontFamily, servers }) => {
   return (
-    <main className={`min-h-screen flex flex-wrap ${fontFamily.className}`}>
+    <main
+      className={`min-h-screen overflow-hidden flex flex-wrap ${fontFamily.className}`}
+    >
       <HomeHero />
       <section className="flex-[70%] md:px-6 flex gap-2 flex-wrap">
         <HomeServers servers={servers} />

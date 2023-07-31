@@ -1,8 +1,9 @@
-import { getHostFromUrl } from "./getHost";
+import { setConfigHost } from "../config/cache";
 
-export default async function refreshHost(hostname) {
-  await getHostFromUrl(hostname, {
+export default async function refreshHost(server) {
+  await setConfigHost(server.name, {
     refetching: true,
-    forceUpdate: true,
+    force: true,
+    pushHosts: server.activate,
   });
 }
