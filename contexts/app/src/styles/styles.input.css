@@ -9,3 +9,7 @@
 .body {
   @apply m-0 p-0;
 }
+
+.card--server:hover  .card__img {
+  @apply grayscale-0;
+}
