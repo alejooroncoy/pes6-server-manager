@@ -1,0 +1,15 @@
+{
+  "name": "@psm/supabase",
+  "version": "0.0.1",
+  "description": "PSM supabase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Alejo Oroncoy <adoa2705@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "supabase": "^1.82.5"
+  }
+}
