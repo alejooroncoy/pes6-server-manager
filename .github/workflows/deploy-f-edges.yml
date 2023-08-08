@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - develop
+    paths:
+      - 'contexts/backend/supabase/**'
+      - '/contexts/backend/supabase/**'
+      - '../contexts/backend/supabase/**'
+      - '../../contexts/backend/supabase/**'
+      - '../../../contexts/backend/supabase/**'
+
   workflow_dispatch:
 
 jobs:
