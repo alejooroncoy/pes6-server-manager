@@ -10,15 +10,24 @@ serve(async () => {
     const { data: servers } = await response.json();
     const checkHosts = await checkUpdateHosts(servers);
     if (checkHosts.success)
-      return new Response("", {
+      return new Response(null, {
         status: 204,
       });
-    return new Response(JSON.stringify(createError(500)));
+    return new Response(
+      JSON.stringify(
+        createError(500, "Server Error", checkHosts.error).toJSON()
+      ),
+      {
+        status: 500,
+      }
+    );
   }
 
   const dataError = await response.json();
 
   const error = createError(500, "Server Error", dataError);
 
-  return new Response(JSON.stringify(error));
+  return new Response(JSON.stringify(error.toJSON()), {
+    status: error.status,
+  });
 });
