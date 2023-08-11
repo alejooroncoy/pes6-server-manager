@@ -1,5 +1,11 @@
 # Changelog 📃
 
+## 0.0.7
+
+<h4>Features ✨</h4>
+
+  * Update technologies 🌌⏫
+
 ## 0.0.6
 
 <h4>Features ✨</h4>

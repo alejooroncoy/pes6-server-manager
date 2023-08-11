@@ -4,6 +4,7 @@
 
 :root {
   scroll-behavior: smooth;
+  font-family: var(--font-inter);
 }
 
 .body {

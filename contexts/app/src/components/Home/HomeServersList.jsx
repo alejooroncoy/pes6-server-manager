@@ -4,7 +4,6 @@ import { ToastContainer } from "react-toastify";
 import { FaWpforms } from "react-icons/fa";
 import useServers from "../../hooks/useServers";
 import { IoLogoGameControllerB } from "react-icons/io";
-import "react-toastify/dist/ReactToastify.css";
 import HomeServer from "./HomeServer";
 
 const HomeServersList = ({ servers: serversGetted }) => {

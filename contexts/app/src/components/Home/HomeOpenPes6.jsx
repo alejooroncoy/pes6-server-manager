@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
-import { Loading } from "@nextui-org/react";
+import { CircularProgress } from "@nextui-org/progress";
+import { Spinner } from "@nextui-org/spinner";
 import { AiFillFolder } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import usePathPes6 from "../../hooks/usePathPes6";
@@ -54,8 +55,15 @@ const HomeOpenPes6 = () => {
           <div className="flex-full flex justify-start items-center w-full flex-wrap gap-2">
             {loading ? (
               <>
-                <Loading type="spinner" size="lg" />{" "}
-                <span className="font-bold">Loading directory Pes 6 Path</span>
+                <CircularProgress
+                  classNames={{
+                    base: "flex flex-row justify-start items-center w-full gap-2",
+                    label: "font-bold",
+                  }}
+                  label="Loading directory Pes 6 Path"
+                  color="primary"
+                  size="lg"
+                />
               </>
             ) : (
               <h3 className="flex items-center py-4 px-2 text-sm font-bold rounded bg-secondary">
@@ -65,7 +73,7 @@ const HomeOpenPes6 = () => {
               </h3>
             )}
             <div className="flex gap-2 items-center">
-              {openLoading && <Loading className="pl-2" type="gradient" />}
+              {openLoading && <Spinner className="pl-2" type="gradient" />}
               <button
                 onClick={handleClickOpen}
                 className="p-2 py-4 font-bold bg-primary text-slate-100 rounded active:scale-95 transition-transform duration-200 w-full md:w-fit"

@@ -16,7 +16,9 @@ export default function useSerial() {
 
   const getSeriales = async () => {
     const serialsPes6Cache = await getSerialsPes6Cache();
-    const serialesGetted = serialsPes6Cache?.split(",") || [];
+    const serialesGetted =
+      serialsPes6Cache?.split(",").map((serialCache) => serialCache.trim()) ||
+      [];
     setSeriales(serialesGetted);
   };
 
@@ -41,7 +43,7 @@ export default function useSerial() {
   const setSerialsFromCache = async () => {
     if (serial.trim()) {
       const serialesGetted = [
-        ...new Set([...seriales, serial].filter((srl) => !!srl)),
+        ...new Set([...seriales, serial.trim()].filter((srl) => !!srl)),
       ];
       await setSerialsPes6Cache(serialesGetted.join(","));
       getSeriales();
