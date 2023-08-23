@@ -1908,7 +1908,7 @@ dependencies = [
 
 [[package]]
 name = "psm"
-version = "0.0.6"
+version = "0.0.7"
 dependencies = [
  "is-wsl",
  "serde",

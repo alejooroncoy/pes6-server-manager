@@ -2,22 +2,20 @@
   "name": "psm",
   "description": "Pes6 server manager helps its users to be able to have control of the servers where they play. In this way, with a few simple clicks, play PES 6 on the server of your choice. 💻⚽",
   "private": true,
-  "version": "0.0.6",
+  "version": "0.0.7",
   "license": "GNU AGPLv3",
   "scripts": {
     "dev": "next dev -p 1420",
-    "build": "next build && next export -o dist",
-    "tauri": "tauri",
-    "styles": "tailwindcss -i ./src/styles/styles.input.css -o ./src/styles/styles.output.css"
+    "build": "next build && next build",
+    "tauri": "tauri"
   },
   "dependencies": {
-    "@next/font": "^13.1.6",
-    "@nextui-org/react": "^1.0.0-beta.12",
+    "@nextui-org/react": "^2.0.9",
     "@tauri-apps/api": "^1.4.0",
-    "framer-motion": "^10.14.0",
+    "framer-motion": "^10.15.1",
     "marked": "^5.1.2",
     "marked-mangle": "^1.1.0",
-    "next": "^13.1.6",
+    "next": "^13.4.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
@@ -31,6 +29,6 @@
     "dotenv": "^16.0.3",
     "postcss": "^8.4.21",
     "prompts": "^2.4.2",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.3.3"
   }
 }

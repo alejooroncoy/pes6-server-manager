@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Dropdown } from "@nextui-org/react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@nextui-org/dropdown";
+import { Button } from "@nextui-org/button";
 import useSerial from "../../hooks/useSerial";
 import logger from "../../libs/logger";
 
@@ -49,16 +55,12 @@ const HomeSerial = () => {
             maxLength={20}
           />
           <Dropdown type="menu">
-            <Dropdown.Button
-              className="flex-full"
-              fit="true"
-              css={{
-                bgColor: "#247291",
-              }}
-            >
-              Serials used
-            </Dropdown.Button>
-            <Dropdown.Menu
+            <DropdownTrigger>
+              <Button className="flex-full bg-primary text-gray-50">
+                Serials used
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
               onAction={handleSelectSerial}
               aria-label="Serials used"
               items={seriales.map((serial) => ({
@@ -66,9 +68,9 @@ const HomeSerial = () => {
               }))}
             >
               {({ serial: serialGetted }) => (
-                <Dropdown.Item key={serialGetted}>{serialGetted}</Dropdown.Item>
+                <DropdownItem key={serialGetted}>{serialGetted}</DropdownItem>
               )}
-            </Dropdown.Menu>
+            </DropdownMenu>
           </Dropdown>
           <button className="py-2 active:scale-95 transition-transform duration-200 font-bold rounded-md px-2 bg-primary text-white flex-full sm:flex-1">
             Change the serial!

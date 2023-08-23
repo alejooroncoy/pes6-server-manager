@@ -1,11 +1,16 @@
 # Changelog 📃
 
+## 0.0.7
+
+<h4>Features ✨</h4>
+
+  * Update technologies 🌌⏫
+
 ## 0.0.6
 
 <h4>Features ✨</h4>
 
   * Change the UI of the servers section 🆕
-  
 
 <h4>Bugs 🐞</h4>
 

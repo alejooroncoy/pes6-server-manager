@@ -1,0 +1,32 @@
+name: Edge Functions Deploy
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'contexts/backend/supabase/**'
+      - '/contexts/backend/supabase/**'
+      - '../contexts/backend/supabase/**'
+      - '../../contexts/backend/supabase/**'
+      - '../../../contexts/backend/supabase/**'
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{secrets.SUPABASE_ACCESS_TOKEN}}
+      PROJECT_ID: ${{secrets.SUPABASE_PROJECT_ID}}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: |
+          cd ./contexts/backend/supabase && supabase functions deploy --project-ref $PROJECT_ID

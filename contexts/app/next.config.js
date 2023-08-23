@@ -4,11 +4,13 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   experimental: {
-    appDir: false,
+    appDir: true,
   },
   images: {
     unoptimized: true,
   },
+  output: "export",
+  distDir: "dist",
 };
 
 module.exports = nextConfig;

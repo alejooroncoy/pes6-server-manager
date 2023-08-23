@@ -5,7 +5,7 @@ import hosts from "../libs/hosts";
 import refreshHost from "../utils/refreshHost";
 
 export default function useServers(serversGetted) {
-  const [servers, setServers] = useState(serversGetted);
+  const [servers, setServers] = useState(serversGetted || []);
   const [serverPlaying, setServerPlaying] = useState(null);
 
   const chooseServer = async (id) => {
