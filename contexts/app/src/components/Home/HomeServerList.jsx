@@ -1,18 +1,18 @@
 "use client";
 
 import { ToastContainer } from "react-toastify";
-import { FaWpforms } from "react-icons/fa";
+import { IconDeviceGamepad2, IconFileDescription } from "@tabler/icons-react";
+import { Button } from "@nextui-org/button";
 import useServers from "../../hooks/useServers";
-import { IoLogoGameControllerB } from "react-icons/io";
 import HomeServer from "./HomeServer";
 
-const HomeServersList = ({ servers: serversGetted }) => {
+const HomeServerList = ({ servers: serversGetted }) => {
   const [servers, { chooseServer, serverPlaying, refreshHost }] =
     useServers(serversGetted);
 
   return (
     <>
-      <ul className="w-full h-full m-0 flex flex-row items-center py-12 px-4 sm:pr-12 md:pr-0 overflow-x-auto overflow-y-hidden gap-8">
+      <ul className="w-full h-full m-0 flex flex-row items-center py-10 px-4 sm:pr-12 md:pr-0 overflow-x-auto overflow-y-hidden gap-8">
         {!servers.length ? (
           <li className="text-xl font-bold py-4">
             We’re having trouble getting the servers, we recommend coming back
@@ -35,26 +35,32 @@ const HomeServersList = ({ servers: serversGetted }) => {
         )}
       </ul>
       <article className="flex flex-wrap gap-2 items-center justify-center md:justify-start pt-12 md:pt-4">
-        <IoLogoGameControllerB size={30} />
+        <IconDeviceGamepad2 size={30} />
         <h3 className="text-2xl font-bold">
           Playing in{" "}
-          <span className="inline-block first-letter:uppercase bg-slate-900 rounded text-quaternary p-2">
-            {serverPlaying?.name.replace("_", " ")}{" "}
-          </span>{" "}
+          <span className="inline-block first-letter:uppercase">
+            {serverPlaying?.name.replace("_", " ")}
+          </span>
         </h3>
-        <a
-          href={serverPlaying?.urlHome}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-primary rounded p-2 text-quaternary flex gap-2 items-center text-2xl font-bold active:scale-95 duration-200 transition-transform"
-        >
-          Register page
-          <FaWpforms size={25} />
-        </a>
+        {serverPlaying?.urlHome && (
+          <Button
+            as="a"
+            href={serverPlaying.urlHome}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="primary"
+            className="text-quaternary font-bold active:scale-95 duration-200 transition-transform text-xl"
+            endContent={<IconFileDescription size={25} />}
+            radius="sm"
+            size="lg"
+          >
+            Register page
+          </Button>
+        )}
       </article>
       <ToastContainer />
     </>
   );
 };
 
-export default HomeServersList;
+export default HomeServerList;

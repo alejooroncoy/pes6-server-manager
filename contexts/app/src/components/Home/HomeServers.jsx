@@ -1,10 +1,6 @@
-import dynamic from "next/dynamic";
+import HomeServersWrapperList from "./HomeServersWrapperList";
 
-const HomeServersList = dynamic(() => import("./HomeServersList"), {
-  ssr: false,
-});
-
-const HomeServers = ({ servers }) => {
+const HomeServers = () => {
   return (
     <section id="servers" className="py-5 w-full overflow-hidden max-w-[100vw]">
       <div className="px-5 flex flex-col gap-2">
@@ -14,7 +10,7 @@ const HomeServers = ({ servers }) => {
         <p className="text-slate-900 text-md sm:text-lg">
           Choose the server where you want to play! 🎮⚽
         </p>
-        <HomeServersList servers={servers} />
+        <HomeServersWrapperList />
       </div>
     </section>
   );

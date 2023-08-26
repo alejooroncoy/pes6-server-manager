@@ -11,6 +11,7 @@ export default async function getServers() {
       console.log(`Loading servers from ${urlListHosts} ⌛✨`);
       const response = await fetch(urlListHosts, {
         method: "GET",
+        next: { revalidate: 60 * 60 * 24 },
       });
       const { data: list } = await response.json();
       console.log(`Loaded servers ⚽✨`);

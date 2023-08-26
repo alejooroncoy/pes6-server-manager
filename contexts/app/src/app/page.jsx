@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import HomeHero from "../components/Home/HomeHero";
 import HomeMessage from "../components/Home/HomeMessage";
 import HomeServers from "../components/Home/HomeServers";
-import getServers from "../utils/getServers";
 
 const HomeOpenPes6 = dynamic(() => import("../components/Home/HomeOpenPes6"), {
   ssr: false,
@@ -12,14 +11,12 @@ const HomeSerial = dynamic(() => import("../components/Home/HomeSerial"), {
   ssr: false,
 });
 
-const Home = async () => {
-  const servers = await getServers();
-
+const Home = () => {
   return (
     <main className="min-h-screen overflow-hidden flex flex-wrap">
       <HomeHero />
       <section className="flex-[70%] md:px-6 flex gap-2 flex-wrap">
-        <HomeServers servers={servers} />
+        <HomeServers />
         <HomeOpenPes6 />
         <HomeSerial />
       </section>

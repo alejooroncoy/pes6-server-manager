@@ -1,9 +1,10 @@
-import Image from "next/image";
+import { Image } from "@nextui-org/image";
+import ImageNext from "next/image";
 import LogoPsm from "../../assets/logo-psm.webp";
 
 const HomeHero = () => {
   return (
-    <section className="w-full pt-28 pb-10 sm:pt-24 md:pt-20 bg-gradient-to-tr from-slate-100 to-slate-300">
+    <section className="w-full pb-10 pt-9 bg-gradient-to-tr from-slate-100 to-slate-300">
       <div className="flex flex-col items-center justify-center gap-4 md:flex-row px-5">
         <article className="px-5 md:max-w-[35rem] flex flex-col gap-4">
           <header>
@@ -19,7 +20,13 @@ const HomeHero = () => {
             </p>
           </div>
         </article>
-        <Image src={LogoPsm} alt="Logo" width={300} height={300} />
+        <Image
+          as={ImageNext}
+          src={LogoPsm.src}
+          alt="Logo"
+          width={300}
+          height={300}
+        />
       </div>
     </section>
   );
