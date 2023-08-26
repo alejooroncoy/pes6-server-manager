@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "PSM",
-    "version": "0.0.7"
+    "version": "0.0.8"
   },
   "tauri": {
     "allowlist": {
@@ -47,7 +47,7 @@
         "all": true,
         "scope": [
           "http://localhost:5000/**/*",
-          "https://psm.up.railway.app/**/*",
+          "https://psmserver.live/**/*",
           "https://psm-server.onrender.com/**/*",
           "https://psm-server.glitch.me/**/*"
         ]
@@ -96,7 +96,7 @@
       "active": true,
       "dialog": false,
       "endpoints": [ 
-      "https://psm.up.railway.app/psm/ultimate/updater?version={{current_version}}&platform={{target}}&arch={{arch}}",
+      "https://psmserver.live/psm/ultimate/updater?version={{current_version}}&platform={{target}}&arch={{arch}}",
       "https://psm-server.glitch.me/psm/ultimate/updater?{{current_version}}&platform={{target}}&arch={{arch}}",
       "https://psm-server.onrender.com/psm/ultimate/updater?{{current_version}}&platform={{target}}&arch={{arch}}"
       ],

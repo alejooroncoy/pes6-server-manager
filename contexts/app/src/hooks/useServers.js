@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { configHostCache, setCache, existsCache } from "../config/cache";
 import loadHost from "../utils/loadHost";

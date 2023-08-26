@@ -1,5 +1,4 @@
-import { BsWhatsapp } from "react-icons/bs";
-import { AiOutlineMail } from "react-icons/ai";
+import { IconBrandWhatsapp, IconMail } from "@tabler/icons-react";
 
 const HomeMessage = () => {
   return (
@@ -21,7 +20,7 @@ const HomeMessage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <BsWhatsapp size={20} />
+          <IconBrandWhatsapp size={20} />
           PSM whatsapp
         </a>
         <a
@@ -30,7 +29,7 @@ const HomeMessage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <AiOutlineMail size={20} />
+          <IconMail size={20} />
           PSM email
         </a>
       </div>

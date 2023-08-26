@@ -1,5 +1,12 @@
 # Changelog 📃
 
+## 0.0.8
+
+<h4>Features ✨</h4>
+
+  * Add american server ⚽🌎
+  * Update ui 🌠
+
 ## 0.0.7
 
 <h4>Features ✨</h4>
