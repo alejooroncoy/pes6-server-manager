@@ -6,9 +6,8 @@
   "license": "GNU AGPLv3",
   "scripts": {
     "dev": "next dev -p 1420",
-    "build": "next build && next export -o dist",
-    "tauri": "tauri",
-    "styles": "tailwindcss -i ./src/styles/styles.input.css -o ./src/styles/styles.output.css"
+    "build": "next build && next build",
+    "tauri": "tauri"
   },
   "dependencies": {
     "@nextui-org/react": "^2.0.9",

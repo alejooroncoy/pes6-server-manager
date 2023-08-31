@@ -5,59 +5,99 @@ import SoccerGoal from "../componentsSvg/SoccerGoal.astro";
 import Link from "../Link.astro";
 ---
 
-<section class="pt-20 bg-gradient-to-tl from-slate-600 to-slate-900">
+<section class="pt-20">
   <div
     class="p-4 sm:px-10 box-border flex items-center justify-center gap-1 flex-col md:flex-row"
   >
-    <article class="content">
-      <div class="py-4 flex justify-center flex-col gap-3">
+    <article>
+      <div class="py-4 flex justify-center flex-col gap-4">
         <h2
-          class="text-3xl sm:text-4xl m-0 lg:text-6xl h-auto pb-2 leading-none xl:text-7xl font-extrabold text-transparent bg-clip-text text-thirdary bg-gradient-to-br"
+          class="text-3xl sm:text-4xl m-0 lg:text-6xl h-auto leading-none xl:text-7xl font-extrabold text-transparent bg-clip-text text-thirdary bg-gradient-to-br"
         >
           Pes 6 server manager
         </h2>
-        <p class="text-lg m-0 text-slate-100 max-w-xl">
+        <p class="md:text-md lg:text-lg m-0 text-neutral-400 max-w-xl">
           Pes6 server manager helps its users to be able to have control of the
           servers where they play. In this way, with a few simple clicks, play
           PES 6 on the server of your choice. 💻⚽
         </p>
-        <div class="m-0 flex flex-col sm:flex-row gap-3">
-          <Link
-            modifier="dark"
-            href="#ultimate"
-            className="flex gap-1 items-center justify-center bg-gradient-to-tr from-slate-500 to-primary animate-[pulseButton_2s_ease-in-out_infinite]"
-          >
-            <Icon
-              class="text-white w-5 h-5 rotate-90"
-              name="ic:baseline-double-arrow"
-            />
 
-            Look version <span class="font-extrabold">ULTIMATE</span>
-          </Link>
-          <Link
-            modifier="dark"
-            href={`${config.baseUrlBackend}/psm/lite?version=latest`}
-            target="_blank"
-            className="flex gap-1 items-center justify-center bg-primary"
-            rel="noopener noreferrer"
-          >
-            <Icon class="text-white w-5 h-5" name="bx:bxs-cloud-download" />
+        <ul class="m-0 flex flex-col sm:flex-row gap-3">
+          <li class="relative">
+            <button
+              id="menuDownload"
+              class="flex gap-1 min-w-full items-center justify-center bg-primary text-neutral-100 p-2 rounded duration-[0.25s] transition-all"
+            >
+              <Icon
+                class="text-neutral-100 w-5 h-5 rotate-180 duration-[0.25s] transition-transform arrow"
+                name="eva:arrow-up-fill"
+              />
+              Download Latest version
+            </button>
+            <ul
+              class="menu max-h-0 overflow-hidden bg-primary text-neutral-100 rounded-t-none rounded duration-[0.25s] transition-all md:absolute w-full"
+            >
+              <li
+                class="relative before:absolute before:bottom-0 before:h-[0.0625rem] before:bg-neutral-300 before:w-full before:left-0"
+              >
+                <Link
+                  href={`${config.baseUrlBackend}/psm/ultimate?version=latest`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex gap-1 items-center justify-start"
+                >
+                  <Icon
+                    class="text-white w-5 h-5"
+                    name="bx:bxs-cloud-download"
+                  />
+                  Download <span class="font-extrabold uppercase">ULTIMATE</span
+                  >
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`${config.baseUrlBackend}/psm/lite?version=latest`}
+                  target="_blank"
+                  className="flex gap-1 items-center justify-start "
+                  rel="noopener noreferrer"
+                >
+                  <Icon
+                    class="text-white w-5 h-5"
+                    name="bx:bxs-cloud-download"
+                  />
 
-            Download Version Lite Latest
-          </Link>
+                  Download <span class="font-extrabold uppercase">LITE</span>
+                </Link>
+              </li>
+            </ul>
+          </li>
 
-          <Link
-            rel="noopener noreferrer"
-            href="https://github.com/alejooroncoy/pes6-server-manager"
-            className="flex gap-1 items-center justify-center bg-secondary p-2"
-            target="_blank"
-          >
-            <Icon class="text-black w-5 h-5" name="mdi:github" />
-            Github Repo
-          </Link>
-        </div>
+          <li>
+            <Link
+              rel="noopener noreferrer"
+              href="https://github.com/alejooroncoy/pes6-server-manager"
+              className="flex gap-1 items-center justify-center bg-secondary p-2"
+              target="_blank"
+            >
+              <Icon class="text-black w-5 h-5" name="mdi:github" />
+              Github Repo
+            </Link>
+          </li>
+        </ul>
       </div>
     </article>
     <SoccerGoal className="w-full h-fit md:w-1/2 lg:w-auto" />
   </div>
 </section>
+
+<style>
+  .open {
+    @apply rounded-b-none;
+    & + .menu {
+      @apply max-h-64;
+    }
+    & .arrow {
+      @apply rotate-0;
+    }
+  }
+</style>

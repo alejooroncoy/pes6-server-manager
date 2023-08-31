@@ -20,7 +20,6 @@ export default async function getServers() {
     } catch (err) {
       if (attempIndex === attemps) return [];
       attempIndex++;
-      config.updateBaseUrl();
     }
   } while (config.baseUrl || !success);
 }
