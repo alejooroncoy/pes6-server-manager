@@ -24,13 +24,13 @@ const response = await fetch(`${config.baseUrlBackend}/server/list`);
 const { data: servers }: ResponseServers = await response.json();
 ---
 
-<section id="servers" class="py-4 bg-gray-100 pt-20">
-  <div class="py-4 flex flex-col gap-12 items-center justify-center">
-    <h2 class="text-3xl md:text-5xl font-extrabold text-primary">
+<section id="servers" class="py-8">
+  <div class="flex flex-col gap-12 items-center justify-center">
+    <h2 class="text-2xl md:text-5xl font-extrabold text-quaternary">
       Servers availables
     </h2>
     <ul
-      class="w-full p-0 m-0 flex gap-8 flex-col sm:flex-wrap sm:flex-row justify-center items-center"
+      class="w-full p-0 m-0 flex gap-8 flex-col sm:flex-row justify-center items-center"
     >
       {
         servers
@@ -44,14 +44,14 @@ const { data: servers }: ResponseServers = await response.json();
                 href={urlHome}
               >
                 <img
-                  id={
-                    (name === "brasil_server" && "pes6BrasilServer") ||
-                    undefined
-                  }
                   class:list={[
-                    "menu__link__img",
-                    name === "brasil_server" ? "p-4 rounded" : "",
-                    name === "ps2" || name === "indie" ? "w-36 md:w-60" : "",
+                    "w-40 grayscale transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105 md:w-32 xl:w-60",
+                    name === "ps2" || name === "indie"
+                      ? "w-10 md:w-24 xl:w-40"
+                      : "",
+                    name === "brasil_server" || name === "american_server"
+                      ? ""
+                      : "bg-white-lazy",
                   ]}
                   alt={`${name.replace("_", " ")} logo`}
                   src={img}
@@ -65,9 +65,3 @@ const { data: servers }: ResponseServers = await response.json();
     </ul>
   </div>
 </section>
-
-<style>
-  .menu__link__img {
-    @apply w-56 grayscale transition-all ease-linear duration-200 hover:grayscale-0 hover:scale-105 md:w-80;
-  }
-</style>

@@ -1,6 +1,8 @@
 const homeServers = () => {
-  const pes6BrasilServer = document.querySelector("#pes6BrasilServer");
-  pes6BrasilServer.classList.add("bg-slate-900");
+  const bgServerLazy = [...document.querySelectorAll(".bg-white-lazy")];
+  bgServerLazy.forEach((serverDom) =>
+    serverDom.classList.add("bg-slate-100", "p-4", "rounded")
+  );
 };
 
 export default homeServers;

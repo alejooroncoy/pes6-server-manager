@@ -2,17 +2,26 @@
 import ServerSvg from "../componentsSvg/ServerSvg.astro";
 ---
 
-<header class="fixed top-0 bg-secondary w-full left-0 z-10">
+<header
+  class="fixed top-0 bg-secondary dark:bg-zinc-900 w-full left-0 z-10 dark:before:block dark:before:absolute dark:before:bottom-0 dark:before:bg-neutral-700 dark:before:left-0 dark:before:w-full dark:before:h-[0.0625rem]"
+>
   <nav class="py-4">
     <div
       class="flex items-center justify-center md:justify-between max-w-screen-lg mx-auto md:px-8 lg:px-0"
     >
-      <a href="/" class="flex gap-2 items-center justify-center">
+      <a
+        href="/"
+        class="flex gap-2 items-center justify-center text-slate-900 dark:text-secondary"
+      >
         <h1 class="flex font-extrabold text-2xl">PSM</h1>
-        <ServerSvg size={25} />
+        <ServerSvg
+          size={25}
+          dark="dark:fill-secondary"
+          light="fill-slate-900"
+        />
       </a>
       <ul
-        class="fixed md:static top-14 left-0 w-full flex justify-center items-center gap-2 flex-row bg-primary text-thirdary md:text-black py-1 md:justify-end md:bg-transparent"
+        class="fixed md:static top-14 left-0 w-full flex justify-center items-center gap-2 flex-row bg-primary text-thirdary md:text-black dark:text-thirdary py-1 md:justify-end md:bg-transparent"
       >
         <li class="flex-auto flex md:flex-none">
           <a class="font-bold mx-auto first-letter:uppercase" href="#servers"

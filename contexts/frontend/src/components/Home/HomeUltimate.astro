@@ -6,16 +6,26 @@ import config from "../../config";
 import Link from "../Link.astro";
 ---
 
-<section id="ultimate" class="bg-gradient-to-b from-slate-100 to-slate-300">
+<section
+  id="ultimate"
+  class="light:bg-gradient-to-b light:from-zinc-500 light:to-zinc-300"
+>
   <div class="py-4 flex flex-col gap-4 px-4">
     <h2
-      class="text-4xl text-center font-extrabold uppercase md:text-7xl bg-gradient-to-tr from-blue-900 to-slate-800 bg-clip-text text-transparent"
+      class="text-4xl text-center font-extrabold uppercase md:text-7xl light:bg-gradient-to-tr light:from-blue-900 light:to-slate-800 dark:bg-[linear-gradient(160deg,_#0093E9_0%,_#80D0C7_100%)] bg-clip-text text-transparent"
     >
       PSM ultimate
     </h2>
     <div class="flex flex-col md:flex-row gap-4 px-4">
-      <div class="flex flex-col gap-2 items-center justify-center">
-        <p class="text-sm md:text-xl font-semibold text-center md:text-start">
+      <Image
+        class="w-[90%] md:w-1/2 mx-auto roundend shadow-lg"
+        src={ImageUltimate}
+        alt="PSM Ultimate photo"
+      />
+      <div class="flex flex-col gap-3 items-center justify-center">
+        <p
+          class="text-sm md:text-xl font-semibold md:text-start dark:text-quaternary"
+        >
           We are delighted to announce the first version of ULTIMATE with new
           features. We invite you to try it and give us your comments to
           continue implementing and improving the program!.
@@ -24,18 +34,13 @@ import Link from "../Link.astro";
           modifier="dark"
           href={`${config.baseUrlBackend}/psm/ultimate?version=latest`}
           target="_blank"
-          className="flex gap-1 items-center justify-center bg-gradient-to-tr from-slate-500 to-primary mx-auto text-md md:text-lg"
+          className="flex gap-1 items-center justify-center bg-gradient-to-tr from-slate-600 to-primary mx-auto text-md md:text-lg"
           rel="noopener noreferrer"
         >
           <Icon class="text-white w-5 h-5" name="bx:bxs-cloud-download" />
           Download <span class="font-extrabold">ULTIMATE</span> version
         </Link>
       </div>
-      <Image
-        class="w-[90%] md:w-1/2 mx-auto roundend shadow-lg"
-        src={ImageUltimate}
-        alt="PSM Ultimate photo"
-      />
     </div>
   </div>
 </section>

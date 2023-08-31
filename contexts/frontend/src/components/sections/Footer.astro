@@ -3,7 +3,9 @@ import { Icon } from "astro-icon";
 import InstagramSvg from "../componentsSvg/instagramSvg.astro";
 ---
 
-<footer class="bg-primary">
+<footer
+  class="bg-primary dark:bg-zinc-900 dark:before:block dark:before:absolute dark:before:bg-neutral-700 dark:before:left-0 dark:before:w-full dark:before:h-[0.0625rem] relative"
+>
   <nav>
     <div
       class="flex flex-col gap-4 py-4 md:px-4 md:flex-row-reverse md:flex-wrap"
@@ -35,7 +37,10 @@ import InstagramSvg from "../componentsSvg/instagramSvg.astro";
               rel="noopener noreferrer"
               href="https://github.com/alejooroncoy"
             >
-              <Icon class="w-5 h-5 text-black" name="mdi:github" />
+              <Icon
+                class="w-5 h-5 dark:text-quaternary text-black"
+                name="mdi:github"
+              />
               @alejooroncoy
             </a>
           </li>
